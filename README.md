@@ -1,7 +1,7 @@
-# Nitrous Acid Program in R (NAPR)
+
 NAPR is a  tool to predict steady state [HONO] and the unknown source. Calculates reaction rates. 
 <p align = "center">
-<img width = "541" alt="MOBCAT" src="https://user-images.githubusercontent.com/77543359/220157629-2190a8ae-88b6-42e3-9f80-0ce0923f7d03.png">
+   # Nitrous Acid Program in R (NAPR)
 </p>
 
 # About Me
