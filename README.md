@@ -1,7 +1,8 @@
 # Nitrous Acid Program in R (NAPR)
-NAPR is a  tool to predict steady state [HONO] and the unknown source. Calculates reaction rates. 
 
 # About Me
+NAPR is a  tool to predict steady state [HONO] and the unknown source. Calculates reaction rates. 
+Created by Bode Hoover at IU Bloomington.
 ## Installation
 If you need to install devtools
 ```
