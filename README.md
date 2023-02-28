@@ -2,7 +2,7 @@
 <img width = "541" alt="NAPR" src = "https://user-images.githubusercontent.com/77543359/221993432-913307d5-5aba-4ddb-8c62-4e85a415a3ca.PNG">
 </p>
 
-# Nitrous Acid Program in R (NAPR)
+# Nitrous Acid Program in R (NAP-R)
 # About Me
 NAPR is a  tool to predict steady state [HONO] and the unknown source. Calculates reaction rates. 
 Created by Bode Hoover at IU Bloomington.
