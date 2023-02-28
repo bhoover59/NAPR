@@ -1,4 +1,4 @@
-# About me ----
+# About me ---------------------------------------------
 # Nitrous Acid Program in R (NAPR)
 # Currently only working for diurnal. Easily use diurnals package if needed
 # Standardized form of calculating HONO sources and modeling [HONO]
@@ -9,8 +9,9 @@
 
 # Clear Memory ------------------------------------------------------------
 rm(list = ls())
-# Dependencies --------------------------------------------↓
+# Dependencies --------------------------------------------
 library(ggplot2)
+library(diurnals)
 
 # Get input --------------------------------------------
 # df <- read.csv('C:\\Users\\bodehoov\\Desktop\\Final MI 2022 Data\\DiurnalNAPR.csv')
@@ -50,10 +51,11 @@ J_HNO3 <- 2 / 100 # cm/s converted to 2 m/s
 # Converting units, convert to molec/cm3 from ppb or ppt
 df <- NAPR::convert_to_percc(df)
 
-# Run the model ----
+# Run the model -------------------------------------------
 df_kinetics <- NAPR::get_kinetics(df) # get rate constants
 df_model <- NAPR::run_model(df_kinetics) # calculate HONO and unknown source
 df_model <- NAPR::convert_to_mixing_ratio(df_model) # convert output to ppb except OH
 
-# Plotting ----
+# Plotting ------------------------------------------------
 plot_species(df = df_model, species = 'HONO_pss', xlab = 'Hour', ylab = 'HONO')
+plot_species(df = df_model, species = 'OH', xlab = 'Hour', ylab = 'OH')
