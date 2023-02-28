@@ -14,6 +14,7 @@ library(ggplot2)
 # Check https://github.com/bhoover59/diurnals for more information about diurnals package
 library(diurnals) # allows diurnal averaging and time averaging
 library(psych) # correct describe function to return data frame
+library(magrittr) # allows %>% operator
 
 # Get input --------------------------------------------------------------------
 # df <- read.csv('C:\\Users\\bodehoov\\Desktop\\Final MI 2022 Data\\DiurnalNAPR.csv')
@@ -37,6 +38,7 @@ df <- NAPR::convert_to_percc(df)
 df <- NAPR::get_rain_days(df = df, compare = 0)
 # Meteorological information ---------------------------------------------------
 # RH input must be % right now. Might update to have optional conversion
+# Pressure must be in atm. Might update to have optional conversion
 df <- NAPR::get_met(df = df, temp_units = 'C', temp_column = 'Temp')
 
 # Run the model ----------------------------------------------------------------
@@ -49,4 +51,5 @@ NAPR::plot_species(df = df_model, species = 'HONO_pss', xlab = 'Hour', ylab = 'H
 NAPR::plot_species(df = df_model, species = 'OH', xlab = 'Hour', ylab = 'OH')
 
 # Summary report ---------------------------------------------------------------
+# Print summary statistics for subset of data frame
 NAPR::report_summary(df_model)

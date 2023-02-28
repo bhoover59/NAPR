@@ -1,6 +1,6 @@
 report_summary <- function(df){
   # Report table of modeled HONO and unknown source strength
-  report <- describe(df)
+  report <- psych::describe(df)
   # create list of columns to keep
   cols_to_keep <- c("unknown", "HONO_pss")
 
