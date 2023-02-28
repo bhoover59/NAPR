@@ -28,5 +28,8 @@ get_initial <- function(){
   initial$v_HNO3 <- 2 / 100 # cm/s converted to 2 m/s
   initial$J_HNO3 <- 2 / 100 # cm/s converted to 2 m/s
 
+  # Vehicle emissions
+  initial$HONO_NOx <- 1e-3
+
   return(initial)
 }

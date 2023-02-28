@@ -1,7 +1,8 @@
 production_mechanisms <- function(df, initial){
   # Aerosols
-  # df$gamma_NO2_aerosol has photoenhanced calculated in get_kinetics
-  # initial$gamma_NO2_aerosol is constant for dark conversion
+  # Explanation of photo-enhanced notation:
+    # df$gamma_NO2_aerosol has photoenhanced calculated in get_kinetics
+    # initial$gamma_NO2_aerosol is constant for dark conversion
 
   # PRODUCTION MECHANISMS (percc/h) --------------------------------------------
   # Later gets converted to ppb/h
@@ -18,7 +19,8 @@ production_mechanisms <- function(df, initial){
 
   # Aerosol surfaces
   # Dark NO2 conversion on aerosols
-  #df$P_NO2het_aerosol <- (initial$v_NO2 * gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4 * H)
+  # DIVIDE BY 4 OR NOT OR 8
+  #df$P_NO2het_aerosol <- (initial$v_NO2 * initial$gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4 * H)
   # Dark NO2 conversion on aerosols
   df$P_NO2het_aerosol <- (initial$v_NO2 * initial$gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4)
   # Photo-enhanced NO2 conversion on aerosols
@@ -29,6 +31,7 @@ production_mechanisms <- function(df, initial){
   # Direct soil emissions (calculate from NO emissions?)
   df$P_soil <-  0 # direct soil emissions
 
+  # NOT INCLUDED YET AND MIGHT NOT
   # Photolysis of nitrophenols
   # df$P_nitro <- J_nitrophenol * df$nitrophenol * 3600
   # Photolysis of nitrate
