@@ -1,10 +1,10 @@
 run_model <- function(df, initial){
   # Calculate production and loss mechanisms
-  # Combine production and loss mechanism data frames
-  # df <- rbind(production_mechanisms(df, initial) , loss_mechanisms(df, initial))
-  df <- initial %>%
-    production_mechanisms(df, .) %>%
-    rbind(loss_mechanisms(df, .))
+  production <- production_mechanisms(df, initial)
+  loss <- loss_mechanisms(df, initial)
+
+  # Merge data frames and remove duplicated columns
+  df <- mutate(production, loss)
 
   # BALANCING MECHANISMS AND UNKNOWN SOURCE ------------------------------------
   df$loss <- df$L_photo + df$L_OH + df$L_uptake_ground
@@ -21,6 +21,7 @@ run_model <- function(df, initial){
 
   # HONO/OH --------------------------------------------------------------------
   df$HONO_OH_meas <- df$HONO / df$OH
+
 
   return(df)
 }

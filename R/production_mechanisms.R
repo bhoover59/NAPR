@@ -1,4 +1,5 @@
 production_mechanisms <- function(df, initial){
+  # IF YOU ADD MECHANISMS, YOU NEED TO ADD THE NAME TO convert_to_mixing_ratio() FOR IT TO CONVERT TO PPB/H
   # Aerosols
   # Explanation of photo-enhanced notation:
     # df$gamma_NO2_aerosol has photoenhanced calculated in get_kinetics
@@ -29,13 +30,20 @@ production_mechanisms <- function(df, initial){
   # Direct vehicle emissions
   df$P_emis <- 0
   # Direct soil emissions (calculate from NO emissions?)
-  df$P_soil <-  0 # direct soil emissions
+  # Currently not photo-sensitive. Constant emission rate
+  if(initial$soil_type == 'AM'){
+    # convert ng/m3 s to ppb/s
+    initial$F_soil_HONO <- initial$F_soil_HONO * 298 / 12.187 / 47
+    df$P_soil <- initial$F_soil_HONO / initial$H * 3600
+  }
 
   # NOT INCLUDED YET AND MIGHT NOT
   # Photolysis of nitrophenols
   # df$P_nitro <- J_nitrophenol * df$nitrophenol * 3600
-  # Photolysis of nitrate
+  # Photolysis of particulate nitrate
   # df$nitrate <- df$nitrate * R * df$Temp * J_HNO3
+  # acid displacement
+  # soil nitrite
 
   return(df)
 }

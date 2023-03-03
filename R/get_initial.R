@@ -1,4 +1,7 @@
 get_initial <- function(){
+  # Initialize data frame
+  initial <- data.frame(matrix(NA, nrow = 1, ncol = 1))
+
   # Aerosols
   initial$gamma_NO2_aerosol <- 1.4e-4 # Liu 2019, Xue 2022a from Song 2022, Song 2022
   initial$S_aerosol <- 1e-4 # surface area of aerosols, m2/m3
@@ -30,6 +33,17 @@ get_initial <- function(){
 
   # Vehicle emissions
   initial$HONO_NOx <- 1e-3
+
+  # Soil type & emissions
+  # ECM: no soil emissions
+  # AM: soil emissions
+  # you can edit production_mechanisms to change how soil emissions are handled
+  # Right now it is just turn on or off default
+  initial$soil_type <- 'AM'
+  initial$F_soil_HONO <- 5 # ng/m2 s flux emission of HONO estimate
+
+  # Delete first column used to initialize
+  initial <- initial[,-1]
 
   return(initial)
 }

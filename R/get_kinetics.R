@@ -1,7 +1,7 @@
-get_kinetics <- function(df) {
+get_kinetics <- function(df, initial) {
   # Calculate rxn rates
   # Low pressure limit
-  df$k_OH_NO_LPL <- (7.0e-31 * (df$TempK / 300) ^ -2.6) * M
+  df$k_OH_NO_LPL <- (7.0e-31 * (df$TempK / 300) ^ -2.6) * initial$M
   # High pressure limit
   df$k_OH_NO_HPL <- (3.6e-11 * (df$TempK / 300) ^ -0.1)
   df$k_OH_NO <- (df$k_OH_NO_LPL / (1 + df$k_OH_NO_LPL / df$k_OH_NO_HPL)) * 0.6 ^ (1.0 / (1 + (log10(df$k_OH_NO_LPL / df$k_OH_NO_HPL)) ^ 2))
@@ -11,9 +11,10 @@ get_kinetics <- function(df) {
   # df$JHONO <- df$JHONO_TUV * df$Jcorr
 
   # Conversion efficiencies
+  # This is only valid for diurnal
   df$gamma_NO2_ground <- 8e-6 * df$JNO2 / df[12,"JNO2"]
-  df$gamma_NO2_aerosol <- 1.4e-4 * df$JNO2 / df$JNO2[11] # JNO2/JNO2 @ noon, photoenhanced
-  df$gamma_NO2_ground <- 8e-6 * df$JNO2 / df$JNO2[11] # JNO2/JNO2 @ noon
+  df$gamma_NO2_aerosol <- 1.4e-4 * df$JNO2 / df$JNO2[12] # JNO2/JNO2 @ noon, photoenhanced
+  df$gamma_NO2_ground <- 8e-6 * df$JNO2 / df$JNO2[12] # JNO2/JNO2 @ noon
   df$JNO2_NO2 <- df$JNO2 * df$NO2
 
   return(df)
