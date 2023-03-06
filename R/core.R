@@ -9,24 +9,16 @@
 # Clear Memory -----------------------------------------------------------------
 rm(list = ls())
 
-# Dependencies -----------------------------------------------------------------
-library(ggplot2)
-# Check https://github.com/bhoover59/diurnals for more information about diurnals package
-library(diurnals) # allows diurnal averaging and time averaging
-library(psych) # correct describe function to return data frame
-# library(magrittr) # allows %>% operator
-library(dplyr) # remove duplicated columns
-library(plotly) # allows interactive ggplot
-library(cowplot) # allows overlay of plots
-library(patchwork) # allows fun plot layouts
-library(tidyr) # allows pivot
-
 # Getting functions from other scripts------------------------------------------
 # Eventually need to put on github and use NAPR:: before function names?
 path <- getwd()
 file <- paste(path, '/R/', 'get_functions', '.R', sep = "")
 source(file)
 get_functions() # load files to enable functions
+
+# Dependencies -----------------------------------------------------------------
+# Install and load necessary packages
+load_packages()
 
 # Get input --------------------------------------------------------------------
 # df <- read.csv('C:\\Users\\bodehoov\\Desktop\\Final MI 2022 Data\\DiurnalNAPR.csv')
@@ -45,8 +37,8 @@ initial <- get_initial()
 df <- convert_to_percc(df)
 
 # Optional functions -----------------------------------------------------------
-# change to TRUE if you want to compare rain vs dry days. Must have Rain column with 1 for rain and 0 for dry
-# 1 = Rain days only, 2 = dry days only, otherwise keep all data
+# Must have Rain column with 1 for rain and 0 for dry
+# compare = 1 -> Rain days only, 2 = dry days only, otherwise keep all data
 df <- get_rain_days(df = df, compare = 0)
 
 # Meteorological information ---------------------------------------------------
@@ -54,8 +46,10 @@ df <- get_rain_days(df = df, compare = 0)
 # Pressure must be in atm. Might update to have optional conversion
 df <- get_met(df = df, temp_units = 'C', temp_column = 'Temp')
 
-# get_J_values is too much for R to handle
-# df <- get_J_values(df = df, JNO2 = 1, Jcorr = 1)
+# Photlysis and TUV Model ------------------------------------------------------
+# TUV model takes long time to run
+df <- TUV_hourly(df = df, date = 20220728, latitude = 45.568100, longitude = -84.682869, gAltitude = 0.2667, mAltitude = 0.26715)
+df <- get_J_values(df = df, JNO2 = 1, Jcorr = 1)
 # if JNO2 = 1, you have JNO2 measurements. 2 means you want to use TUV JNO2
 # Jcorr = 1 means you want to calculate Jcorr by JNO2 measured/JNO2 TUV
 # Jcorr = 0 means you want to input your own column of Jcorr values
@@ -65,14 +59,14 @@ df <- get_met(df = df, temp_units = 'C', temp_column = 'Temp')
 df_kinetics <- get_kinetics(df, initial) # get rate constants
 df_model <- run_model(df_kinetics, initial) # calculate HONO and unknown source
 df_model <- convert_to_mixing_ratio(df_model) # convert output to ppb except OH and rates
-# df_model <- convert_to_numeric(df_model) # convert all columns to numeric other than time
+# df_model <- convert_to_numeric(df_model) # convert all columns to numeric
 
 # Plotting ---------------------------------------------------------------------
 plot_species(df = df_model, species = 'HONO_pss', xlab = 'Hour', ylab = 'HONO')
 plot_species(df = df_model, species = 'OH', xlab = 'Hour', ylab = 'OH')
 plot_rates(df = df_model) # plot HONO production and loss rates
-plot_stacked_rates(df = df_model)
-plot_all_stacked_rates(df = df_model)
+plot_stacked_rates(df = df_model) # plot stacked loss rates with total production line
+plot_all_stacked_rates(df = df_model) # plot all individual produciton and loss rates stacked
 
 # Summary report ---------------------------------------------------------------
 # Print summary statistics for subset of data frame
@@ -80,4 +74,4 @@ plot_all_stacked_rates(df = df_model)
 report_summary(df_model)
 
 # Output csv -------------------------------------------------------------------
-output_csv(df_model, file_name = 'test name') # output csv to working directory
+output_csv(df_model, file_name = 'NAPR output') # output csv to working directory

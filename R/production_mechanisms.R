@@ -1,8 +1,26 @@
 production_mechanisms <- function(df, initial){
   # IF YOU ADD MECHANISMS, YOU NEED TO ADD THE NAME TO convert_to_mixing_ratio() FOR IT TO CONVERT TO PPB/H
+  # List of mechanisms ---------------------------------------------------------
+  # Homogeneous gas phase: OH+NO = HONO
+  # NO2 Conversion on Humid Surfaces:
+  #     - Ground: 2NO2+ground+H2O = HONO + HNO3
+  #     - Photoenhanced Ground: 2NO2+ground+H2O+hv = HONO + HNO3
+  #     - Aerosols: 2NO2+aerosol+H2O = HONO + HNO3
+  #     - Photoenhanced Aerosols: 2NO2+aerosol+H2O+hv = HONO + HNO3
+  # Vehicle Emissions
+  # Soil Emissions
+  #     - Based on constant flux rate and boundary layer height
+  #     - Should be different rate throughout day
+  #     - Boundary layer height should minimize at night, max during day
+  #     - Should include [soil nitrite], pH, temp, RH, and WHC dependence
+  # Acid Displaclement
+  # Photolysis of Adsorbed Nitric Acid: 2HNO3+hv=2HONO+O2
+  # Photolysis of Particulate Nitrate (same as above?)
+  # Photolysis of ortho nitrophenols: orthonitrophenol+hv=HONO
+
   # Aerosols
   # Explanation of photo-enhanced notation:
-    # df$gamma_NO2_aerosol has photoenhanced calculated in get_kinetics
+    # df$gamma_NO2_aerosol has photo-enhanced calculated in get_kinetics
     # initial$gamma_NO2_aerosol is constant for dark conversion
 
   # PRODUCTION MECHANISMS (percc/h) --------------------------------------------
