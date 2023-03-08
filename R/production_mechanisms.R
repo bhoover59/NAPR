@@ -21,6 +21,7 @@ production_mechanisms <- function(df, initial){
   # Aerosols
   # Explanation of photo-enhanced notation:
     # df$gamma_NO2_aerosol has photo-enhanced calculated in get_kinetics
+      # Uses ratio of JNO2 to max JNO2
     # initial$gamma_NO2_aerosol is constant for dark conversion
 
   # PRODUCTION MECHANISMS (percc/h) --------------------------------------------
@@ -31,15 +32,15 @@ production_mechanisms <- function(df, initial){
 
   # Ground surfaces
   # Dark NO2 conversion on ground
-  df$P_NO2het_ground <- (initial$v_NO2 * initial$gamma_NO2_ground * df$NO2 * 3600) / (8 * initial$H)
+  df$P_NO2het_ground <- (initial$v_NO2 * initial$gamma_NO2_ground * df$NO2 * 3600) / (8 * df$H)
   # Aerosols independent of boundary layer H, only ground is?
   # Photo-enhanced NO2 conversion on ground
-  df$P_NO2het_ground_light <- (initial$v_NO2 * df$gamma_NO2_ground * df$NO2 * 3600) / (8 * initial$H)
+  df$P_NO2het_ground_light <- (initial$v_NO2 * df$gamma_NO2_ground * df$NO2 * 3600) / (8 * df$H)
 
   # Aerosol surfaces
   # Dark NO2 conversion on aerosols
   # DIVIDE BY 4 OR NOT OR 8
-  #df$P_NO2het_aerosol <- (initial$v_NO2 * initial$gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4 * H)
+  # df$P_NO2het_aerosol <- (initial$v_NO2 * initial$gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4 * H)
   # Dark NO2 conversion on aerosols
   df$P_NO2het_aerosol <- (initial$v_NO2 * initial$gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4)
   # Photo-enhanced NO2 conversion on aerosols
@@ -50,9 +51,10 @@ production_mechanisms <- function(df, initial){
   # Direct soil emissions (calculate from NO emissions?)
   # Currently not photo-sensitive. Constant emission rate
   if(initial$soil_type == 'AM'){
-    # convert ng/m3 s to ppb/s
+    # convert ng/m3 /s to ppb/s
+    # NEED TO SCALE SOIL DUE TO PHOTO ENHANCED?
     initial$F_soil_HONO <- initial$F_soil_HONO * 298 / 12.187 / 47
-    df$P_soil <- initial$F_soil_HONO / initial$H * 3600
+    df$P_soil <- initial$F_soil_HONO / df$H * 3600
   }
 
   # NOT INCLUDED YET AND MIGHT NOT

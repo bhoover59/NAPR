@@ -9,7 +9,7 @@ run_model <- function(df, initial){
   # BALANCING MECHANISMS AND UNKNOWN SOURCE ------------------------------------
   df$loss <- df$L_photo + df$L_OH + df$L_uptake_ground
   # df$loss <- df$L_photo + df$L_OH + df$L_uptake_ground + df$kdil
-  df$production <- df$P_OH_NO + df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol
+  df$production <- df$P_OH_NO + df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light + df$P_emis + df$P_soil
   df$diff <- df$production - df$loss
   # Offer to calculate dHONOdt for them?
   df$unknown <- df$dHONOdt - df$production + df$loss
@@ -17,7 +17,11 @@ run_model <- function(df, initial){
   # MODEL PREDICTIONS ----------------------------------------------------------
   # Include dilution factor?
   # df$HONO_pss <- ((df$P_OH_NO / 3600) / (df$JHONO + df$k_HONO_OH * df$OH)) + df$kdil * 3600 * 1e3
-  df$HONO_pss <- (df$P_OH_NO / 3600) / (df$JHONO + df$k_HONO_OH * df$OH)
+  # using molec/cm3 due to rate constants units
+  df$HONO_pss <- (df$k_OH_NO * df$OH * df$NO) / (df$JHONO + df$k_HONO_OH * df$OH)
+
+  # Need to calculate HONO for all production
+  # df$HONO_model <- df$production / (df$loss / df$HONO)
 
   # HONO/OH --------------------------------------------------------------------
   df$HONO_OH_meas <- df$HONO / df$OH

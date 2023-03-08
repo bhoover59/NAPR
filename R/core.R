@@ -33,7 +33,7 @@ check_input(df)
 # Includes deposition velocities and other constants
 initial <- get_initial()
 
-# Converting units, convert to molec/cm3 from ppb or ppt
+# Converting units, convert to molec/cm3 from ppb
 df <- convert_to_percc(df)
 
 # Optional functions -----------------------------------------------------------
@@ -49,24 +49,26 @@ df <- get_met(df = df, temp_units = 'C', temp_column = 'Temp')
 # Photlysis and TUV Model ------------------------------------------------------
 # TUV model takes long time to run
 df <- TUV_hourly(df = df, date = 20220728, latitude = 45.568100, longitude = -84.682869, gAltitude = 0.2667, mAltitude = 0.26715)
-df <- get_J_values(df = df, JNO2 = 1, Jcorr = 1)
+df <- get_J_values(df = df, JNO2 = 1, Jcorr = 2)
 # if JNO2 = 1, you have JNO2 measurements. 2 means you want to use TUV JNO2
 # Jcorr = 1 means you want to calculate Jcorr by JNO2 measured/JNO2 TUV
 # Jcorr = 0 means you want to input your own column of Jcorr values
 # Jcorr = 2 means you don't want to scale by Jcorr, use ideal conditions
+# Calculates JHONO based on JNO2 and Jcorr
 
 # Run the model ----------------------------------------------------------------
-df_kinetics <- get_kinetics(df, initial) # get rate constants
+df_kinetics <- get_kinetics(df, initial, BLH_night = 200) # get rate constants and boundary layer height
 df_model <- run_model(df_kinetics, initial) # calculate HONO and unknown source
 df_model <- convert_to_mixing_ratio(df_model) # convert output to ppb except OH and rates
 # df_model <- convert_to_numeric(df_model) # convert all columns to numeric
 
 # Plotting ---------------------------------------------------------------------
-plot_species(df = df_model, species = 'HONO_pss', xlab = 'Hour', ylab = 'HONO')
-plot_species(df = df_model, species = 'OH', xlab = 'Hour', ylab = 'OH')
+plot_HONO(df = df_model, xlab = 'Hour', ylab = '[HONO] (ppt)')
+plot_species(df = df_model, species = 'JHONO', xlab = 'Hour', ylab = '[OH] (percc)')
 plot_rates(df = df_model) # plot HONO production and loss rates
 plot_stacked_rates(df = df_model) # plot stacked loss rates with total production line
-plot_all_stacked_rates(df = df_model) # plot all individual produciton and loss rates stacked
+plot_all_stacked_rates(df = df_model) # plot all individual production and loss rates stacked
+plot_all_stacked_rates_test(df = df_model) # plot all individual production and loss rates stacked
 
 # Summary report ---------------------------------------------------------------
 # Print summary statistics for subset of data frame

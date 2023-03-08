@@ -5,7 +5,7 @@ convert_to_mixing_ratio <- function(df) {
                 "L_photo", "L_OH", "L_uptake_ground", "production", "loss", "diff", "unknown")
   for(col_name in colnames(df)) {
     if(col_name %in% col_list) {
-      df[[col_name]] <- df[[col_name]] / 2.46e10
+      df[[col_name]] <- df[[col_name]] / (2.46e10)
     }
   }
 

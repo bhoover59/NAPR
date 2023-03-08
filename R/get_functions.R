@@ -9,7 +9,7 @@ get_functions <- function() {
     "get_met.R",
     "get_rain_days.R",
     "loss_mechanisms.R",
-    "plot_species.R",
+    "plot_HONO.R",
     "production_mechanisms.R",
     "report_summary.R",
     "run_model.R",
@@ -21,7 +21,9 @@ get_functions <- function() {
     "plot_all_stacked_rates.R",
     "TUV_core.R",
     "load_packages.R",
-    "TUV_hourly.R"
+    "TUV_hourly.R",
+    "plot_all_stacked_rates_test.R",
+    "plot_species.R"
   )
   path <- getwd()
   for (file_name in file_list) {
