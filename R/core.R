@@ -47,9 +47,11 @@ df <- get_rain_days(df = df, compare = 0)
 df <- get_met(df = df, temp_units = 'C', temp_column = 'Temp')
 
 # Photlysis and TUV Model ------------------------------------------------------
-# TUV model takes long time to run
+# TUV model takes a couple of minutes to run
 df <- TUV_hourly(df = df, date = 20220728, latitude = 45.568100, longitude = -84.682869, gAltitude = 0.2667, mAltitude = 0.26715)
-df <- get_J_values(df = df, JNO2 = 1, Jcorr = 2)
+# FIX JHONO SO IT WORKS CONSISTENTLY
+# Sometimes TUV output is weird, especially on fringes so you may need to edit some values especially if 0 --> infinity
+df <- get_J_values(df = df, JNO2 = 1, Jcorr = 1)
 # if JNO2 = 1, you have JNO2 measurements. 2 means you want to use TUV JNO2
 # Jcorr = 1 means you want to calculate Jcorr by JNO2 measured/JNO2 TUV
 # Jcorr = 0 means you want to input your own column of Jcorr values

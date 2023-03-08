@@ -23,7 +23,8 @@ get_functions <- function() {
     "load_packages.R",
     "TUV_hourly.R",
     "plot_all_stacked_rates_test.R",
-    "plot_species.R"
+    "plot_species.R",
+    "shift_column.R"
   )
   path <- getwd()
   for (file_name in file_list) {
