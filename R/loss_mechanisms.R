@@ -6,7 +6,7 @@ loss_mechanisms <- function(df, intial){
   # HONO + OH -> NO2 + H2O
   df$L_OH <- df$k_HONO_OH * df$HONO * df$OH * 3600
   # Ground deposition
-  df$L_uptake_ground <- (initial$v_HONO * df$HONO * initial$gamma_HONO_ground * 3600) / (8 * initial$H)
+  df$L_uptake_ground <- (initial$v_HONO * df$HONO * initial$gamma_HONO_ground * 3600) / (8 * df$H)
   # Aerosol deposition/uptake
 
   # NOT INCLUDED YET

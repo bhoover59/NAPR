@@ -64,11 +64,13 @@ df_model <- run_model(df_kinetics, initial) # calculate HONO and unknown source
 df_model <- convert_to_mixing_ratio(df_model) # convert output to ppb except OH and rates
 # df_model <- convert_to_numeric(df_model) # convert all columns to numeric
 
+# NEED TO TEST IF ACTUALLY STACKING OR NOT
+# TRY ADDING LARGE AMOUNT TO L_OH SO WE CAN SEE DIFFERENCE RIGHT NOW ITS TOO SMALL
 # Plotting ---------------------------------------------------------------------
 plot_HONO(df = df_model, xlab = 'Hour', ylab = '[HONO] (ppt)')
-plot_species(df = df_model, species = 'JHONO', xlab = 'Hour', ylab = '[OH] (percc)')
+plot_species(df = df_model, species = 'L_photo', xlab = 'Hour', ylab = 'J Photolysis (s-)')
 plot_rates(df = df_model) # plot HONO production and loss rates
-plot_stacked_rates(df = df_model) # plot stacked loss rates with total production line
+plot_stacked_rates(df = df_model) # plot stacked loss rates with total production line, NOT ACTUALLY STACKED??
 plot_all_stacked_rates(df = df_model) # plot all individual production and loss rates stacked
 plot_all_stacked_rates_test(df = df_model) # plot all individual production and loss rates stacked
 

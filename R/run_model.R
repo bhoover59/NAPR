@@ -21,7 +21,7 @@ run_model <- function(df, initial){
   df$HONO_pss <- (df$k_OH_NO * df$OH * df$NO) / (df$JHONO + df$k_HONO_OH * df$OH)
 
   # Need to calculate HONO for all production
-  # df$HONO_model <- df$production / (df$loss / df$HONO)
+  df$HONO_model <- df$production / (df$loss / df$HONO)
 
   # HONO/OH --------------------------------------------------------------------
   df$HONO_OH_meas <- df$HONO / df$OH

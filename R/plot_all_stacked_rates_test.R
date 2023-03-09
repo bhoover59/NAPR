@@ -24,17 +24,20 @@ plot_all_stacked_rates_test <- function(df){
 
   # create the stacked area plot
   ggplot(df_long, aes(x = Hours, y = Rate, fill = Label)) +
-    geom_area() +
+    geom_area(position = "stack", alpha = 0.75) +
     labs(x = "Hours", y = "Rate (ppb/h)",
          title = "Reaction Mechanisms",
          fill = "") +
-    scale_fill_manual(
-      values = c("HONO+hv" = "red", "HONO+OH" = "orange", "P_OH_NO" = "green", "P_NO2het_ground" = "blue",
-                 "P_NO2het_ground_light" = "#CC6666", "P_NO2het_aerosol" = "#9999CC", "P_NO2het_aerosol_light" = "#66CC99",
-                 "P_soil" = "black"),
-      labels = c("HONO+hv", "HONO+OH", "OH+NO", "NO2+ground", "NO2+ground+hv", "NO2+aerosol", "NO2+aerosol+hv",
-                 "Soil")
-    ) +
+    # scale_fill_manual(
+    #   values = c("HONO+hv" = "red", "HONO+OH" = "orange", "P_OH_NO" = "green", "P_NO2het_ground" = "blue",
+    #              "P_NO2het_ground_light" = "#CC6666", "P_NO2het_aerosol" = "#9999CC", "P_NO2het_aerosol_light" = "#66CC99",
+    #              "P_soil" = "black"),
+    #   labels = c("HONO+hv", "HONO+OH", "OH+NO", "NO2+ground", "NO2+ground+hv", "NO2+aerosol", "NO2+aerosol+hv",
+    #              "Soil")
+    # ) +
+    # scale_fill_colorblind() +
+    scale_fill_brewer(palette = "Spectral") +
+    # scale_fill_hue(l=40) +
     theme_classic() +
     theme(
       legend.position = "top",

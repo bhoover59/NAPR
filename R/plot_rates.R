@@ -3,7 +3,6 @@ plot_rates <- function(df){
     geom_line(aes(y = -L_photo, color = "HONO+hv")) +
     geom_line(aes(y = -L_OH, color = "HONO+OH")) +
     geom_line(aes(y = production, color = "Total production")) +
-    # scale_color_manual(values = c(L_photo = "purple", L_OH = "red", production = "black")) +
     labs(x = "Hours", y = "Rate (ppb/h)", color = "Reaction") +
     theme_classic() +
     theme(
