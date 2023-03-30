@@ -30,31 +30,36 @@ production_mechanisms <- function(df, initial){
   # Homogeneous gas phase rxn: OH + NO -> HONO
   df$P_OH_NO <- df$k_OH_NO * df$OH * df$NO * 3600
 
-  # Ground surfaces
+  # Ground surfaces ------------------------------------------------------------
   # Dark NO2 conversion on ground
-  df$P_NO2het_ground <- (initial$v_NO2 * initial$gamma_NO2_ground * df$NO2 * 3600) / (8 * df$H)
-  # Aerosols independent of boundary layer H, only ground is?
+  df$P_NO2het_ground <- (df$v_NO2 * initial$gamma_NO2_ground * df$NO2 * (df$RH/50) * 3600) / (4 * df$H)
+  # Aerosols independent of boundary layer H, only ground is
   # Photo-enhanced NO2 conversion on ground
-  df$P_NO2het_ground_light <- (initial$v_NO2 * df$gamma_NO2_ground * df$NO2 * 3600) / (8 * df$H)
+  df$P_NO2het_ground_light <- (df$v_NO2 * initial$gamma_NO2_ground * (df$JNO2 / initial$beta)^3 * (df$RH/50) * df$NO2 * 3600) / (4 * df$H)
+  # df$gamma_NO2_ground has a scaled NO2 uptake but different method
 
-  # Aerosol surfaces
-  # Dark NO2 conversion on aerosols
-  # DIVIDE BY 4 OR NOT OR 8
+  # Aerosol surfaces -----------------------------------------------------------
   # df$P_NO2het_aerosol <- (initial$v_NO2 * initial$gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4 * H)
-  # Dark NO2 conversion on aerosols
-  df$P_NO2het_aerosol <- (initial$v_NO2 * initial$gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4)
-  # Photo-enhanced NO2 conversion on aerosols
-  df$P_NO2het_aerosol_light <- (initial$v_NO2 * df$gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4)
 
-  # Direct vehicle emissions
+  # Dark NO2 conversion on aerosols
+  df$P_NO2het_aerosol <- (df$v_NO2 * initial$gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4)
+
+  # Photo-enhanced NO2 conversion on aerosols
+  df$P_NO2het_aerosol_light <- (df$v_NO2 * initial$gamma_NO2_aerosol * (df$JNO2 / initial$beta) * df$NO2 * initial$S_aerosol * 3600) / (4)
+
+  # Direct vehicle emissions ---------------------------------------------------
+  # Estimate using HONO/NOx ratio
   df$P_emis <- 0
-  # Direct soil emissions (calculate from NO emissions?)
+
+  # Direct soil emissions (calculate from NO emissions?) -----------------------
   # Currently not photo-sensitive. Constant emission rate
   if(initial$soil_type == 'AM'){
     # convert ng/m3 /s to ppb/s
     # NEED TO SCALE SOIL DUE TO PHOTO ENHANCED?
     initial$F_soil_HONO <- initial$F_soil_HONO * 298 / 12.187 / 47
     df$P_soil <- initial$F_soil_HONO / df$H * 3600
+  }else{
+    df$P_soil <- 0 # no soil emissions
   }
 
   # NOT INCLUDED YET AND MIGHT NOT

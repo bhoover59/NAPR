@@ -2,7 +2,9 @@ plot_all_stacked_rates_test <- function(df){
   # tidy the data
   df_long <- df %>%
     pivot_longer(
-      cols = c("L_photo", "L_OH", "P_OH_NO", "P_NO2het_ground", "P_NO2het_ground_light", "P_NO2het_aerosol", "P_NO2het_aerosol_light", "P_soil"),
+      cols = c("L_photo", "L_OH", "L_dilution", "L_uptake_ground", "L_aerosol",
+               "L_ground_light", "L_aerosol_light", "P_OH_NO", "P_NO2het_ground",
+               "P_NO2het_ground_light", "P_NO2het_aerosol", "P_NO2het_aerosol_light", "P_soil"),
       names_to = "Reaction",
       values_to = "Rate"
     ) %>%
@@ -13,12 +15,17 @@ plot_all_stacked_rates_test <- function(df){
       Label = case_when(
         Reaction == "L_photo" ~ "HONO+hv",
         Reaction == "L_OH" ~ "HONO+OH",
-        Reaction == "P_OH_NO" ~ "P_OH_NO",
-        Reaction == "P_NO2het_ground" ~ "P_NO2het_ground",
-        Reaction == "P_NO2het_ground_light" ~ "P_NO2het_ground_light",
-        Reaction == "P_NO2het_aerosol" ~ "P_NO2het_aerosol",
-        Reaction == "P_NO2het_aerosol_light" ~ "P_NO2het_aerosol_light",
-        Reaction == "P_soil" ~ "P_soil"
+        Reaction == "L_dilution" ~ "Dilution",
+        Reaction == "L_uptake_ground" ~ "Ground deposition",
+        Reaction == "L_aerosol" ~ "Aerosol deposition",
+        Reaction == "L_ground_light" ~ "HONO+ground+hv",
+        Reaction == "L_aerosol_light" ~ "HONO+aerosol+hv",
+        Reaction == "P_OH_NO" ~ "OH+NO",
+        Reaction == "P_NO2het_ground" ~ "NO2+ground",
+        Reaction == "P_NO2het_ground_light" ~ "NO2+ground+hv",
+        Reaction == "P_NO2het_aerosol" ~ "NO2+aerosol",
+        Reaction == "P_NO2het_aerosol_light" ~ "NO2+aerosol+hv",
+        Reaction == "P_soil" ~ "Soil"
       )
     )
 
@@ -28,15 +35,17 @@ plot_all_stacked_rates_test <- function(df){
     labs(x = "Hours", y = "Rate (ppb/h)",
          title = "Reaction Mechanisms",
          fill = "") +
-    # scale_fill_manual(
-    #   values = c("HONO+hv" = "red", "HONO+OH" = "orange", "P_OH_NO" = "green", "P_NO2het_ground" = "blue",
-    #              "P_NO2het_ground_light" = "#CC6666", "P_NO2het_aerosol" = "#9999CC", "P_NO2het_aerosol_light" = "#66CC99",
-    #              "P_soil" = "black"),
-    #   labels = c("HONO+hv", "HONO+OH", "OH+NO", "NO2+ground", "NO2+ground+hv", "NO2+aerosol", "NO2+aerosol+hv",
-    #              "Soil")
-    # ) +
+    scale_fill_manual(
+      values = c("L_photo" = "firebrick4", "L_OH" = "firebrick3", "L_dilution" = "firebrick2", "L_uptake_ground" = "firebrick1", "L_aerosol" = "firebrick", "L_ground_light" = "coral",
+                 "L_aerosol_light" = "darksalmon", "P_OH_NO" = "navy", "P_NO2het_ground" = "blue4",
+                 "P_NO2het_ground_light" = "blue", "P_NO2het_aerosol" = "royalblue",
+                 "P_NO2het_aerosol_light" = "steelblue1", "P_soil" = "lightskyblue"),
+      labels = c("HONO+hv", "HONO+OH", "Dilution", "HONO+ground", "HONO+aerosol", "HONO+ground+hv", "HONO+aerosol+hv",
+                 "OH+NO", "NO2+ground", "NO2+ground+hv", "NO2+aerosol", "NO2+aerosol+hv", "Soil")
+    ) +
     # scale_fill_colorblind() +
-    scale_fill_brewer(palette = "Spectral") +
+    # max number of variables for spectral is 11
+    # scale_fill_brewer(palette = "Spectral") +
     # scale_fill_hue(l=40) +
     theme_classic() +
     theme(

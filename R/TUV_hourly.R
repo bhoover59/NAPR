@@ -2,7 +2,7 @@ TUV_hourly <- function(df, date, latitude, longitude, gAltitude, mAltitude) {
   # About ----------------------------------------------------------------------
   # Calculate JNO2 and JHONO for each hour for specified day and location
   # Check NCAR for more information on TUV Model: https://www2.acom.ucar.edu/modeling/tropospheric-ultraviolet-and-visible-tuv-radiation-model
-  # OUTPUT IS GMT TIME SO ADJUST ACCORDINGLY
+  # OUTPUT IS GMT TIME get_J_values.R adjusts to Eastern time. Change if necessary
 
   # Run TUV Model --------------------------------------------------------------
   hours <- 0:23

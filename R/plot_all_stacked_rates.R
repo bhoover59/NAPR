@@ -25,7 +25,7 @@ plot_all_stacked_rates <- function(df){
          title = "Reaction Mechanisms",
          fill = "") +
     scale_fill_manual(
-      values = c("HONO+hv" = "red", "HONO+OH" = "orange", "P_OH_NO" = "green", "P_NO2het_ground" = "blue"),
+      values = c("HONO+hv" = "firebrick4", "HONO+OH" = "firebrick3", "P_OH_NO" = "navy", "P_NO2het_ground" = "blue"),
       labels = c("HONO+hv", "HONO+OH", "OH+NO", "NO2+ground")
     ) +
     theme_classic() +

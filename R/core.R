@@ -22,6 +22,7 @@ load_packages()
 
 # Get input --------------------------------------------------------------------
 # df <- read.csv('C:\\Users\\bodehoov\\Desktop\\Final MI 2022 Data\\DiurnalNAPR.csv')
+# df <- read.csv('C:\\path to file\\file name.csv')
 df <- get_input_file() # Load csv file. INPUT IN PPB FOR SPECIES
 
 # Check input ------------------------------------------------------------------
@@ -46,31 +47,32 @@ df <- get_rain_days(df = df, compare = 0)
 # Pressure must be in atm. Might update to have optional conversion
 df <- get_met(df = df, temp_units = 'C', temp_column = 'Temp')
 
-# Photlysis and TUV Model ------------------------------------------------------
+# Photolysis and TUV Model ------------------------------------------------------
 # TUV model takes a couple of minutes to run
+# NCAR TUV differs substantially from MCM & F0AM
 df <- TUV_hourly(df = df, date = 20220728, latitude = 45.568100, longitude = -84.682869, gAltitude = 0.2667, mAltitude = 0.26715)
 # FIX JHONO SO IT WORKS CONSISTENTLY
 # Sometimes TUV output is weird, especially on fringes so you may need to edit some values especially if 0 --> infinity
-df <- get_J_values(df = df, JNO2 = 1, Jcorr = 1)
-# if JNO2 = 1, you have JNO2 measurements. 2 means you want to use TUV JNO2
-# Jcorr = 1 means you want to calculate Jcorr by JNO2 measured/JNO2 TUV
-# Jcorr = 0 means you want to input your own column of Jcorr values
-# Jcorr = 2 means you don't want to scale by Jcorr, use ideal conditions
+df <- get_J_values(df = df, JNO2 = 2, Jcorr = 1)
+# JNO2 = 1, use JNO2 measurements
+# JNO2 = 2 use TUV modeled JNO2
+# Jcorr = 1 calculate Jcorr by JNO2 measured/JNO2 TUV
+# Jcorr = 0 input your own column of Jcorr values
+# Jcorr = 2 input JHONO values
+# Jcorr = else use ideal conditions (don't want to scale by Jcorr), not recommended
 # Calculates JHONO based on JNO2 and Jcorr
 
 # Run the model ----------------------------------------------------------------
-df_kinetics <- get_kinetics(df, initial, BLH_night = 200) # get rate constants and boundary layer height
+df_kinetics <- get_kinetics(df, initial) # get rate constants and boundary layer height
 df_model <- run_model(df_kinetics, initial) # calculate HONO and unknown source
 df_model <- convert_to_mixing_ratio(df_model) # convert output to ppb except OH and rates
 # df_model <- convert_to_numeric(df_model) # convert all columns to numeric
 
-# NEED TO TEST IF ACTUALLY STACKING OR NOT
-# TRY ADDING LARGE AMOUNT TO L_OH SO WE CAN SEE DIFFERENCE RIGHT NOW ITS TOO SMALL
 # Plotting ---------------------------------------------------------------------
 plot_HONO(df = df_model, xlab = 'Hour', ylab = '[HONO] (ppt)')
-plot_species(df = df_model, species = 'L_photo', xlab = 'Hour', ylab = 'J Photolysis (s-)')
+plot_species(df = df_model, species = 'JHONO', xlab = 'Hour', ylab = 'J Photolysis (s-)')
 plot_rates(df = df_model) # plot HONO production and loss rates
-plot_stacked_rates(df = df_model) # plot stacked loss rates with total production line, NOT ACTUALLY STACKED??
+plot_stacked_rates(df = df_model) # plot stacked loss rates with total production line
 plot_all_stacked_rates(df = df_model) # plot all individual production and loss rates stacked
 plot_all_stacked_rates_test(df = df_model) # plot all individual production and loss rates stacked
 
