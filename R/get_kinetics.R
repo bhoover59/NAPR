@@ -21,16 +21,14 @@ get_kinetics <- function(df, initial) {
 
   # HONO uptake coefficients ---------------------------------------------------
   max_JHONO <- max(df$JHONO) # assume maximum JHONO is at noon
-  df$gamma_HONO_ground <- 8e-6 * df$JHONO / max_JHONO
+  # df$gamma_HONO_ground <- 8e-6 * df$JHONO / max_JHONO
+  # gamma_HONO_ground determined in get_HONO_soil_uptake.R using pH and RH dependence
+  df$gamma_HONO_ground <- get_HONO_soil_uptake(df = df)
   df$gamma_HONO_aerosol <- 1.4e-4 * df$JHONO / max_JHONO # JHONO/JHONO @ noon, photoenhanced
 
   # Deposition Velocities (cm/s) ----------------------------------------------------------
-  # Approximate as 1 or 2 cm/s while right now it is ~35
-  # df$v_HONO  <- 2 / 100
-  # df$v_NO2 <- 2 / 100 # m/s
-  # Check math on this equation. I think they are molecular velocity not deposition
-  df$v_HONO <- sqrt((3 * initial$R * df$TempK) / (initial$Mass_HONO / 1e3)) / 100 # m/s
-  df$v_NO2 <- sqrt((3 * initial$R * df$TempK) / (initial$Mass_NO2 / 1e3)) / 100 # m/s
+  df$v_HONO <- sqrt((3 * initial$R * df$TempK) / (initial$Mass_HONO * 1e3)) # m/s
+  df$v_NO2 <- sqrt((3 * initial$R * df$TempK) / (initial$Mass_NO2 * 1e3)) # m/s
 
   # Estimate boundary layer height (BLH) ---------------------------------------
   # By default BLH_night =  200 m

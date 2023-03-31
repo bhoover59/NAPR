@@ -9,6 +9,8 @@ run_model <- function(df, initial){
   # BALANCING MECHANISMS AND UNKNOWN SOURCE ------------------------------------
   df$loss <- df$L_photo + df$L_OH + df$L_uptake_ground + df$L_aerosol + df$L_ground_light + df$L_aerosol_light
   df$production <- df$P_OH_NO + df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light + df$P_emis + df$P_soil
+  df$P_NO2het <- df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light
+  df$L_het <- df$L_uptake_ground + df$L_aerosol + df$L_ground_light + df$L_aerosol_light
   df$diff <- df$production - df$loss
 
   # Offer to calculate dHONOdt for them?
@@ -20,11 +22,23 @@ run_model <- function(df, initial){
   df$HONO_pss <- (df$k_OH_NO * df$OH * df$NO) / (df$JHONO + df$k_HONO_OH * df$OH)
 
   # Need to calculate HONO for all production
-  df$HONO_model <- df$production / df$loss
+  df$HONO_model <- df$production / df$loss + (df$HONO[1] * 1e3) # ppt
 
   # HONO/OH --------------------------------------------------------------------
   df$HONO_OH_meas <- df$HONO / df$OH
 
+  # Testing other method of calculating HONO
+  # ppt
+  # for(i in 1:24){
+  #   if(i == 1){
+  #     df$HONO_test1[i] <- initial$HONO + df$diff[i] * 1e3
+  #     df$HONO_test2[i] <- initial$HONO + df$diff[i] * 1e3
+  #   }
+  #   else{
+  #     df$HONO_test1[i] <- df$HONO_test1[i-1] + df$diff[i] * 1e3
+  #     df$HONO_test2[i] <- df$HONO_test2[i-1] + df$production[i] / df$loss[i] * 1e3
+  #   }
+  # }
 
   return(df)
 }

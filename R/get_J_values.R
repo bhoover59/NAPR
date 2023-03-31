@@ -10,11 +10,11 @@ get_J_values <- function(df, JNO2, Jcorr) {
   # Correcting JNO2_TUV --------------------------------------------------------
   # Issue because JNO2_TUV can be 0 which results in infinite Jcorr
   # To fix, we replace JNO2_TUV with the average of smallest 2 in JNO2_TUV that is greater than or equal to 5e-6
-  # smallest_JNO2_TUV <- mean(sort(unique(df$JNO2_TUV[df$JNO2_TUV >= 5e-7]))[1:5])
-  smallest_JNO2_TUV <- 1
+  smallest_JNO2_TUV <- mean(sort(unique(df$JNO2_TUV[df$JNO2_TUV >= 5e-7]))[1:5])
+  # smallest_JNO2_TUV <- 1
   # Replace the values in JNO2_TUV less than 5e-6 with the smallest value that is still greater than or equal to 5e-6
-  df$JNO2_TUV[df$JNO2_TUV == 0] <- 1
-  # df$JNO2_TUV[df$JNO2_TUV <= 5e-7  ] <- smallest_JNO2_TUV
+  # df$JNO2_TUV[df$JNO2_TUV == 0] <- 1
+  df$JNO2_TUV[df$JNO2_TUV <= 5e-7] <- smallest_JNO2_TUV
 
   # # NEED TO SHIFT TIME BACK BECAUSE TUV OUTPUT IS GMT TIME
   df <- shift_column(df, "JNO2_TUV", shift_amount = 5)
@@ -33,15 +33,12 @@ get_J_values <- function(df, JNO2, Jcorr) {
   if(Jcorr == 1) {
     # Use TUV calculated Jcorr
     df$Jcorr <- df$JNO2 / df$JNO2_TUV
-    # df <- shift_column(df, "Jcorr", shift_amount = 5)
     df$JHONO <- df$JHONO_TUV * df$Jcorr
-    # Must correct for extreme TUV predictions causing divide by 0 error
+    # Must correct for extreme TUV predictions. No photolysis at night but can't use JNO2 because divide by zero error
     # Correcting JHONO, gives pretty good HONO results
-    df$JHONO[df$JHONO <= 5e-6] <- 3.5e-5
-    # df$JHONO[16:21] <- df$JHONO[9:14]
-    # df$JHONO[21] <- df$JHONO[9]
-    # df$JHONO[7:21] <- df$JHONO[7:21] * 5
-    # df$JHONO[1:6] <- df$JHONO[1:6] / 5
+    # df$JHONO[1:6] <- 0
+    df$JHONO[7:19] <- df$JHONO[7:19]
+    # df$JHONO[20:23] <- 0
   } else if(Jcorr == 0) {
     # User input Jcorr column
     df$JHONO <- df$JHONO_TUV * df$Jcorr

@@ -24,7 +24,10 @@ get_functions <- function() {
     "TUV_hourly.R",
     "plot_all_stacked_rates_test.R",
     "plot_species.R",
-    "shift_column.R"
+    "shift_column.R",
+    "get_HONO_soil_uptake.R",
+    "plot_HONO_model_comparison.R",
+    "plot_all_stacked_rates_test2.R"
   )
   path <- getwd()
   for (file_name in file_list) {
