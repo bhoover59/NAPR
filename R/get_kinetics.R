@@ -26,7 +26,7 @@ get_kinetics <- function(df, initial) {
   df$gamma_HONO_ground <- get_HONO_soil_uptake(df = df)
   df$gamma_HONO_aerosol <- 1.4e-4 * df$JHONO / max_JHONO # JHONO/JHONO @ noon, photoenhanced
 
-  # Deposition Velocities (cm/s) ----------------------------------------------------------
+  # Deposition Velocities (m/s) ----------------------------------------------------------
   df$v_HONO <- sqrt((3 * initial$R * df$TempK) / (initial$Mass_HONO * 1e3)) # m/s
   df$v_NO2 <- sqrt((3 * initial$R * df$TempK) / (initial$Mass_NO2 * 1e3)) # m/s
 

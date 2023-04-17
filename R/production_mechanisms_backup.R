@@ -20,14 +20,15 @@ production_mechanisms <- function(df, initial){
 
   # Aerosols
   # Explanation of photo-enhanced notation:
-    # df$gamma_NO2_aerosol has photo-enhanced calculated in get_kinetics
-      # Uses ratio of JNO2 to max JNO2
-      # Actually now it uses Beta factor
-    # initial$gamma_NO2_aerosol is constant for dark conversion
+  # df$gamma_NO2_aerosol has photo-enhanced calculated in get_kinetics
+  # Uses ratio of JNO2 to max JNO2
+  # Actually now it uses Beta factor
+  # initial$gamma_NO2_aerosol is constant for dark conversion
 
   # PRODUCTION MECHANISMS (percc/h) --------------------------------------------
   # Later gets converted to ppb/h
-  # Homogeneous gas phase rxn: OH + NO -> HONO ---------------------------------
+
+  # Homogeneous gas phase rxn: OH + NO -> HONO
   df$P_OH_NO <- df$k_OH_NO * df$OH * df$NO * 3600
 
   # Ground surfaces ------------------------------------------------------------
@@ -42,7 +43,7 @@ production_mechanisms <- function(df, initial){
   # Dark NO2 conversion on aerosols
   df$P_NO2het_aerosol <- (df$v_NO2 * initial$gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4)
 
-  # Photo-enhanced NO2 conversion on aerosols ----------------------------------
+  # Photo-enhanced NO2 conversion on aerosols
   df$P_NO2het_aerosol_light <- (df$v_NO2 * initial$gamma_NO2_aerosol * (df$JNO2 / initial$beta) * df$NO2 * initial$S_aerosol * 3600) / (4)
 
   # Direct vehicle emissions ---------------------------------------------------

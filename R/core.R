@@ -67,23 +67,22 @@ df <- get_J_values(df = df, JNO2 = 1, Jcorr = 1)
 # Run the model ----------------------------------------------------------------
 df_kinetics <- get_kinetics(df, initial) # get rate constants and boundary layer height
 df_model <- run_model(df_kinetics, initial) # calculate HONO and unknown source
-df_model <- convert_to_mixing_ratio(df_model) # convert output to ppb except OH and rates
-# df_model <- convert_to_numeric(df_model) # convert all columns to numeric
 
 # Plotting ---------------------------------------------------------------------
 plot_HONO(df = df_model, xlab = 'Hour', ylab = '[HONO] (ppt)')
 # plot_HONO_model_comparison(df = df_model) # compare base and added chemistry
-# plot_species(df = df_model, species = 'JHONO', xlab = 'Hour', ylab = 'J Photolysis (s-)')
-# plot_rates(df = df_model) # plot HONO production and loss rates
+# plot_species(df = df_model, species = 'diff', xlab = 'Hour', ylab = 'J Photolysis (s-)')
 # plot_stacked_rates(df = df_model) # plot stacked loss rates with total production line
 # plot_all_stacked_rates(df = df_model) # plot all individual production and loss rates stacked
-plot_all_stacked_rates_test2(df = df_model) # plot all individual production and loss rates stacked
+plot_rates(df = df_model) # plot all individual production and loss rates stacked
 
 # Summary report ---------------------------------------------------------------
 # Print summary statistics for subset of data frame
 # Currently subsets for HONO_pss and unknown but can easily be edited
+# EDIT FOR HONO_model
 report_summary(df_model)
 
 # Output csv -------------------------------------------------------------------
 output_csv(df_model, file_name = 'NAPR output') # output csv to working directory
 
+plot(df_model$Hours, df_model$HONO_pss)

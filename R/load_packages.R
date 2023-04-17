@@ -1,10 +1,10 @@
 load_packages <- function(libraries) {
-  libraries <- c("ggplot2", "diurnals", "psych", "dplyr", "plotly", "cowplot", "patchwork", "tidyr", "devtools", "ggthemes")
+  libraries <- c("ggplot2", "diurnals", "psych", "dplyr", "plotly", "cowplot", "patchwork", "tidyr", "devtools", "ggthemes", "magrittr")
   # Description of required libraries ------------------------------------------
   # Check https://github.com/bhoover59/diurnals for more information about diurnals package
   # diurnals: allows diurnal averaging and time averaging
   # psych: correct describe function to return data frame
-  # library(magrittr): allows %>% operator
+  # magrittr: allows %>% operator
   # dplyr: remove duplicated columns
   # plotly: allows interactive ggplot
   # cowplot: allows overlay of plots

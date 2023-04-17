@@ -9,21 +9,23 @@ get_initial <- function(){
   initial$M <- 2.46e19 # concentration of intermediate air molecules
 
   # Deposition and Conversion --------------------------------------------------
-  initial$gamma_NO2_aerosol <- 1.4e-4 # Liu 2019, Xue 2022a from Song 2022, Song 2022
+  initial$gamma_NO2_aerosol <- 1e-5 # Liu 2019, Xue 2022a from Song 2022, Song 2022
+  # 1e-5 # Emily value in F0AM
   # Over 100 m2/m3 excluded by Janson 2016 for being too high for pine forest
   # Ranges from 0.01 to over 100 depending on location and local meteorological conditions
-  initial$gamma_NO2_ground <-  8e-6  # Liu 2019
+  initial$gamma_NO2_ground <- 1e-6
+  # 8e-6  # Liu 2019
   initial$S_aerosol <- 1e-4 # surface area of aerosols, m2/m3
 
   # Boundary layer height located in get_kinetics.R
 
   # Photoenhanced version in get_kinetics.R
   # These should eventually be RH and pH dependent on soils
-  initial$gamma_HONO_ground <- 7.3e-4 # Emily value: 8.7e-5
-  initial$gamma_HONO_aerosol <- 7.3e-5 # where did I get this?
+  initial$gamma_HONO_ground <- 8.7e-5
+  initial$gamma_HONO_aerosol <- 7.3e-5
   initial$beta <- 0.00724 # light scaling factor
 
-  initial$HONO <- 20 # percc HONO initialization
+  initial$HONO <- 20 # ppt HONO initialization
 
   # Boundary layer height initialization
   initial$BLH_night <- 200 # m, night time boundary layer height, Daytime = 3 * Night

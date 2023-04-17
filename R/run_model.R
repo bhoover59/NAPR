@@ -4,41 +4,35 @@ run_model <- function(df, initial){
   loss <- loss_mechanisms(df, initial)
 
   # Merge data frames and remove duplicated columns
-  df <- mutate(production, loss)
+  total <- mutate(production, loss)
 
   # BALANCING MECHANISMS AND UNKNOWN SOURCE ------------------------------------
-  df$loss <- df$L_photo + df$L_OH + df$L_uptake_ground + df$L_aerosol + df$L_ground_light + df$L_aerosol_light
-  df$production <- df$P_OH_NO + df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light + df$P_emis + df$P_soil
-  df$P_NO2het <- df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light
-  df$L_het <- df$L_uptake_ground + df$L_aerosol + df$L_ground_light + df$L_aerosol_light
-  df$diff <- df$production - df$loss
-
-  # Offer to calculate dHONOdt for them?
-  df$unknown <- df$dHONOdt - df$production + df$loss
+  # Offer to calculate dHONOdt for them? MAKE SURE dHONOdt same units as production and loss
+  total$unknown <- total$dHONOdt - total$production + total$loss
 
   # MODEL PREDICTIONS ----------------------------------------------------------
-  # Include dilution factor?
-  # using molec/cm3 due to rate constants units
-  df$HONO_pss <- (df$k_OH_NO * df$OH * df$NO) / (df$JHONO + df$k_HONO_OH * df$OH)
-
-  # Need to calculate HONO for all production
-  df$HONO_model <- df$production / df$loss + (df$HONO[1] * 1e3) # ppt
+  # Base model: using molec/cm3 due to rate constants units
+  total$HONO_pss <- (total$k_OH_NO * total$OH * total$NO) / (total$JHONO + total$k_HONO_OH * total$OH)
 
   # HONO/OH --------------------------------------------------------------------
-  df$HONO_OH_meas <- df$HONO / df$OH
+  total$HONO_OH_meas <- total$HONO / total$OH # both in molec/cm3
 
-  # Testing other method of calculating HONO
-  # ppt
-  # for(i in 1:24){
-  #   if(i == 1){
-  #     df$HONO_test1[i] <- initial$HONO + df$diff[i] * 1e3
-  #     df$HONO_test2[i] <- initial$HONO + df$diff[i] * 1e3
-  #   }
-  #   else{
-  #     df$HONO_test1[i] <- df$HONO_test1[i-1] + df$diff[i] * 1e3
-  #     df$HONO_test2[i] <- df$HONO_test2[i-1] + df$production[i] / df$loss[i] * 1e3
-  #   }
-  # }
+  total <- convert_to_mixing_ratio(total) # convert output to ppb except OH
 
-  return(df)
+  total$delta <- total$production - total$loss
+  print(total$delta)
+  # Added chemistry # units of initial$HONO
+  # total$HONO_model <- total$production / total$loss + initial$HONO
+
+  # Set initial HONO value MAJOR ASSUMPTION
+  total$HONO_model[1] <- initial$HONO
+
+  # Loop over all rows in total, starting from the second row
+  for (i in 2:nrow(total)) {
+    # Calculate HONO_model using previous value and diff in rates
+    total$HONO_model[i] <- total$HONO_model[i-1] + total$delta[i]
+  }
+
+
+  return(total)
 }
