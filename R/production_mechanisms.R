@@ -13,7 +13,7 @@ production_mechanisms <- function(df, initial){
   #     - Should be different rate throughout day
   #     - Boundary layer height should minimize at night, max during day
   #     - Should include [soil nitrite], pH, temp, RH, and WHC dependence
-  # Acid Displaclement
+  # Acid Displacement
   # Photolysis of Adsorbed Nitric Acid: 2HNO3+hv=2HONO+O2
   # Photolysis of Particulate Nitrate (same as above?)
   # Photolysis of ortho nitrophenols: orthonitrophenol+hv=HONO
@@ -28,7 +28,7 @@ production_mechanisms <- function(df, initial){
   # PRODUCTION MECHANISMS (percc/h) --------------------------------------------
   # Later gets converted to ppb/h
   # Homogeneous gas phase rxn: OH + NO -> HONO ---------------------------------
-  df$P_OH_NO <- df$k_OH_NO * df$OH * df$NO * 3600
+  df$P_OH_NO <- df$k_OH_NO * df$OH * df$NO * 3600 * 10
 
   # Ground surfaces ------------------------------------------------------------
   # Dark NO2 conversion on ground
@@ -57,7 +57,7 @@ production_mechanisms <- function(df, initial){
     # NEED TO SCALE SOIL DUE TO PHOTO ENHANCED?
     initial$F_soil_HONO <- initial$F_soil_HONO * 298 / 12.187 / 47
     df$P_soil <- initial$F_soil_HONO / df$H * 3600
-  }else{
+  } else{
     df$P_soil <- 0 # no soil emissions
   }
 

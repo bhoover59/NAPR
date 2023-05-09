@@ -1,6 +1,6 @@
 check_input <- function(df){
   # Check if required columns are in the data frame
-  required_columns <- c("OH", "NO", "NO2", "HONO", "dHONOdt")
+  required_columns <- c("OH", "NO", "NO2", "HONO")
   # loop through each required column
   missing_cols <- 0  # counter for missing columns
   for (col in required_columns) {

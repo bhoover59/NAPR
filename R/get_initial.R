@@ -10,7 +10,6 @@ get_initial <- function(){
 
   # Deposition and Conversion --------------------------------------------------
   initial$gamma_NO2_aerosol <- 1e-5 # Liu 2019, Xue 2022a from Song 2022, Song 2022
-  # 1e-5 # Emily value in F0AM
   # Over 100 m2/m3 excluded by Janson 2016 for being too high for pine forest
   # Ranges from 0.01 to over 100 depending on location and local meteorological conditions
   initial$gamma_NO2_ground <- 1e-6
@@ -20,7 +19,7 @@ get_initial <- function(){
   # Boundary layer height located in get_kinetics.R
 
   # Photoenhanced version in get_kinetics.R
-  # These should eventually be RH and pH dependent on soils
+  # Only use these if no RH or pH measurements. Otherwise adjust the weighting of RH and pH
   initial$gamma_HONO_ground <- 8.7e-5
   initial$gamma_HONO_aerosol <- 7.3e-5
   initial$beta <- 0.00724 # light scaling factor
@@ -29,6 +28,7 @@ get_initial <- function(){
 
   # Boundary layer height initialization
   initial$BLH_night <- 200 # m, night time boundary layer height, Daytime = 3 * Night
+  # Boundary layer rain = 0.5 * BLH dry Che 2021 (https://acp.copernicus.org/articles/21/5253/2021/acp-21-5253-2021.pdf), Li 2011; Zuo 2004
 
   # HNO3 Deposition
   initial$v_HNO3 <- 2 / 100 # cm/s converted to 2 m/s

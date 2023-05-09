@@ -6,6 +6,9 @@ run_model <- function(df, initial){
   # Merge data frames and remove duplicated columns
   total <- mutate(production, loss)
 
+  # Calculate dHONOdt
+  total$dHONOdt <- calculate_dHONOdt(total)
+
   # BALANCING MECHANISMS AND UNKNOWN SOURCE ------------------------------------
   # Offer to calculate dHONOdt for them? MAKE SURE dHONOdt same units as production and loss
   total$unknown <- total$dHONOdt - total$production + total$loss
@@ -17,10 +20,11 @@ run_model <- function(df, initial){
   # HONO/OH --------------------------------------------------------------------
   total$HONO_OH_meas <- total$HONO / total$OH # both in molec/cm3
 
-  total <- convert_to_mixing_ratio(total) # convert output to ppb except OH
+  # Convert output to ppb except OH
+  total <- convert_to_mixing_ratio(total)
 
   total$delta <- total$production - total$loss
-  print(total$delta)
+
   # Added chemistry # units of initial$HONO
   # total$HONO_model <- total$production / total$loss + initial$HONO
 
@@ -32,7 +36,6 @@ run_model <- function(df, initial){
     # Calculate HONO_model using previous value and diff in rates
     total$HONO_model[i] <- total$HONO_model[i-1] + total$delta[i]
   }
-
 
   return(total)
 }

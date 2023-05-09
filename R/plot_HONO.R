@@ -2,6 +2,7 @@ plot_HONO <- function(df, xlab, ylab){
   ggplot(df, aes(x = Hours, y = HONO_model)) +
     geom_point() +
     geom_line() +
+    ylim(0, NA) +
     labs(x = xlab, y = ylab) +
     theme_classic()
 }
