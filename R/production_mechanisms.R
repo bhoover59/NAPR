@@ -71,7 +71,7 @@ production_mechanisms <- function(df, initial){
   # Acid Displacement
 
   # Lumping together heterogeneous production ----------------------------------
-  df$P_NO2het <- df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light
+  df$P_NO2het <- (df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light) * 1e3
 
   # Total production -----------------------------------------------------------
   df$production <- df$P_OH_NO + df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light + df$P_emis + df$P_soil

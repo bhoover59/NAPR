@@ -14,8 +14,8 @@ get_initial <- function(){
   # Ranges from 0.01 to over 100 depending on location and local meteorological conditions
   initial$gamma_NO2_ground <- 1e-6
   # 8e-6  # Liu 2019
-  initial$S_aerosol <- 1e-4 # surface area of aerosols, m2/m3
-
+  initial$S_aerosol <- 1e-4 # surface area of aerosols clean, m2/m3 (https://cires1.colorado.edu/jimenez-group/Press/2015.05.22-Atmospheric.Chemistry.Cheat.Sheet.pdf)
+  # initial$S_aerosol <- 2e-3 if urban
   # Boundary layer height located in get_kinetics.R
 
   # Photoenhanced version in get_kinetics.R
@@ -47,6 +47,9 @@ get_initial <- function(){
 
   # Dilution
   initial$kdil <- 1/86400 # s- lifetime of species in box 1/day
+
+  # Estimate OH
+  initial$estimate_OH <- 0 # 1 to estimate OH using NOx and O3, 0 to use measurements
 
   # Delete first column used to initialize
   initial <- initial[,-1]

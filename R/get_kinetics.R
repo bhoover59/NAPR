@@ -39,5 +39,12 @@ get_kinetics <- function(df, initial) {
   night_hours <- c(0:8, 21:24)
   df$H[night_hours] <- initial$BLH_night
 
+  # Estimating OH
+  if (initial$estimate_OH == 1){
+    # (Ehhalt D., et al. 2000) (https://agupubs.onlinelibrary.wiley.com/doi/epdf/10.1029/1999JD901070)
+    JO1D <- (df$JNO2 / 1.61)^2
+    df$OH <- 0.83 * JO1D^0.87 * df$JNO2^0.19 * ((140 * df$NO2 + 1)) / ((0.41 * df$NO2^2+1.7*df$NO2+1))
+  }
+
   return(df)
 }

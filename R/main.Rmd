@@ -1,0 +1,146 @@
+---
+title: "Nitrous Acid Program in R (NAPR)"
+author: "Bode Hoover"
+date: "`r Sys.Date()`"
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## About me
+
+-   Implementation of the Nitrous Acid Program in R (NAPR) for
+    standardized form of calculating HONO sources and modeling [HONO]
+-   Currently only working for diurnal but will add averaging option.
+-   Easily use [diurnals package](https://github.com/bhoover59/diurnals)
+    if needed
+-   Later will make RShiny App for best UI
+
+### Clear memory
+
+```{r clear memory}
+rm(list = ls())
+```
+
+### Get input file and functions
+
+-   Getting functions from other scripts
+-   OR put app.R shiny app in same folder!
+-   **Input concentrations must be ppb**
+-   You might have to adjust the working directory if functions don't
+    load. They are in NAPR/R/file.R
+
+```{r get inputs}
+path <- getwd()
+file <- paste(path, '/get_functions', '.R', sep = "")
+source(file)
+get_functions() # load files to enable functions
+```
+
+### Get input data csv
+
+Load csv file with concentrations in ppb
+
+```{r get input file}
+df <- get_input_file()
+```
+
+### Dependencies
+
+Install and load necessary packages
+
+```{r load dependencies}
+load_packages()
+```
+
+### Check input
+
+They don't have to have valid data, but they must exist
+
+```{r check input}
+check_input(df)
+```
+
+### Initial parameters
+
+Includes constants and user options Convert units to molec/cm3 from ppb
+
+```{r initial parameters}
+initial <- get_initial()
+df <- convert_to_percc(df)
+```
+
+### Optional functions
+
+Must have Rain column for filtering \* Compare options: \* Rain only = 1
+\* Dry only = 0 \* All data otherwise
+
+```{r optional}
+df <- get_rain_days(df = df, compare = 0)
+```
+
+### Meteorological information
+
+-   RH input must be **%** right now. Might update to have optional
+    conversion
+-   Pressure must be in **atm**. Might update to have optional
+    conversion
+
+```{r meteorological}
+df <- get_met(df = df, temp_units = 'C', temp_column = 'Temp')
+```
+
+### Photolysis and TUV Model
+
+TUV model takes a couple of minutes to run \* NCAR TUV differs
+substantially from MCM & F0AM \* FIX JHONO SO IT WORKS CONSISTENTLY \*
+Sometimes TUV output is weird, especially on fringes so you may need to
+edit some values especially if 0 --\> infinity \* JNO2 options: \* JNO2
+= 1, use JNO2 measurements \* JNO2 = 2 use TUV modeled JNO2 \* Jcorr
+options: \* Jcorr = 1 calculate Jcorr by JNO2 measured/JNO2 TUV \* Jcorr
+= 0 input your own column of Jcorr values \* Jcorr = 2 input JHONO
+values \* Jcorr = else use ideal conditions (don't want to scale by
+Jcorr), not recommended \* Calculates JHONO based on JNO2 and Jcorr
+
+```{r TUV}
+df <- TUV_hourly(df = df, date = 20220728, latitude = 45.568100, longitude = -84.682869, gAltitude = 0.2667, mAltitude = 0.26715)
+df <- get_J_values(df = df, JNO2 = 1, Jcorr = 1)
+```
+
+### Run the model
+
+```{r run model}
+df_kinetics <- get_kinetics(df, initial) # get rate constants and boundary layer height
+df_model <- run_model(df_kinetics, initial) # calculate HONO and unknown source
+```
+
+### Plotting
+
+```{r plotting}
+plot_HONO(df = df_model, xlab = 'Hour', ylab = '[HONO] (ppt)')
+# plot_stacked_rates(df = df_model) # plot stacked loss rates with total production line
+# plot_all_stacked_rates(df = df_model) # plot all individual production and loss rates stacked
+plot_rates(df = df_model) # plot all individual production and loss rates stacked
+plot(df_model$Hours, df_model$HONO_pss) # Plot base model
+plot(df_model$Hours, df_model$HONO_model) # Plot base model
+```
+
+### Summary report
+
+-   Print summary statistics for subset of data frame
+-   Currently subsets for HONO_pss and unknown but can easily be edited
+
+```{r summary}
+report_summary(df_model)
+```
+
+### Output csv
+
+```{r output}
+output_csv(df_model, file_name = 'NAPR output') # output csv to working directory
+```

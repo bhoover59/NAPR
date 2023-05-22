@@ -4,7 +4,6 @@
 # Currently only working for diurnal.
 # Easily use diurnals package if needed (https://github.com/bhoover59/diurnals)
 # Standardized form of calculating HONO sources and modeling [HONO]
-# Later will make corresponding Nitrous Acid Program in Python (NAPPy)
 # Later will make RShiny App for best UI
 
 # Clear Memory -----------------------------------------------------------------
@@ -75,6 +74,7 @@ plot_HONO(df = df_model, xlab = 'Hour', ylab = '[HONO] (ppt)')
 # plot_stacked_rates(df = df_model) # plot stacked loss rates with total production line
 # plot_all_stacked_rates(df = df_model) # plot all individual production and loss rates stacked
 plot_rates(df = df_model) # plot all individual production and loss rates stacked
+plot(df_model$Hours, df_model$HONO_pss) # Plot base model
 
 # Summary report ---------------------------------------------------------------
 # Print summary statistics for subset of data frame
@@ -85,4 +85,4 @@ report_summary(df_model)
 # Output csv -------------------------------------------------------------------
 output_csv(df_model, file_name = 'NAPR output') # output csv to working directory
 
-plot(df_model$Hours, df_model$HONO_pss)
+

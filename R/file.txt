@@ -1,0 +1,135 @@
+
+ <pre>
+
+
+ \n INPUT PARAMETERS:\n
+ RADIATION SCHEME:            2  streams\n
+ w-grid:         141   280.000000       420.000000    
+ equally spaced z-grid
+ z-grid:          81  0.266700000       80.0000000    
+  measurement point: index           1  altitude=  0.266700000    
+ idate =     20220728  esfact(1) =   0.969907284    
+ air temperature: USSA, 1976
+ air concentrations: USSA, 1976
+ ozone profile: USSA, 1976
+ DATAE1/SUN/susim_hi.flx
+ DATAE1/SUN/atlas3_1994_317_a.dat        
+ DATAE1/SUN/neckel.flx                   
+ DATAE1/SUN/sao2010.solref.converted     
+ aerosols:  Elterman (1968) continental profile
+ lat=   45.5681000      long=  -84.6828690      ut=   23.0000000    
+ solar zenith angle =    68.8878174    
+ \nPHOTOLYSIS RATES (1/sec):\n
+   1 O2 -> O + O                               0.000E+00
+   2 O3 -> O2 + O(1D)                          3.522E-06
+   3 O3 -> O2 + O(3P)                          1.309E-05
+   4 HO2 -> OH + O                             0.000E+00
+   5 H2O2 -> 2 OH                              2.242E-06
+   6 NO2 -> NO + O(3P)                         3.981E-03
+   7 NO3 -> NO + O2                            0.000E+00
+   8 NO3 -> NO2 + O(3P)                        1.304E-04
+   9 N2O -> N2 + O(1D)                         0.000E+00
+  10 N2O5 -> NO3 + NO + O(3P)                  0.000E+00
+  11 N2O5 -> NO3 + NO2                         1.369E-05
+  12 HNO2 -> OH + NO                           6.213E-04
+  13 HNO3 -> OH + NO2                          1.154E-07
+  14 HNO4 -> HO2 + NO2                         1.662E-06
+  15 NO3-(aq) -> NO2(aq) + O-                  5.238E-08
+  16 NO3-(aq) -> NO2-(aq) + O(3P)              6.859E-09
+  17 NO3-(aq) with qy=1                        6.235E-06
+  18 CH2O -> H + HCO                           8.858E-06
+  19 CH2O -> H2 + CO                           1.696E-05
+  20 CH3CHO -> CH3 + HCO                       8.176E-07
+  21 CH3CHO -> CH4 + CO                        9.933E-16
+  22 CH3CHO -> CH3CO + H                       0.000E+00
+  23 C2H5CHO -> C2H5 + HCO                     3.475E-06
+  24 CH3OOH -> CH3O + OH                       1.692E-06
+  25 HOCH2OOH -> HOCH2O. + OH                  1.376E-06
+  26 CH3ONO2 -> CH3O + NO2                     1.625E-07
+  27 CH3(OONO2) -> CH3(OO) + NO2               8.915E-07
+  28 CH3CH2ONO2 -> CH3CH2O + NO2               2.693E-07
+  29 C2H5ONO2 -> C2H5O + NO2                   2.778E-07
+  30 n-C3H7ONO2 -> C3H7O + NO2                 4.108E-07
+  31 1-C4H9ONO2 -> 1-C4H9O + NO2               3.948E-07
+  32 2-C4H9ONO2 -> 2-C4H9O + NO2               2.484E-07
+  33 CH3CHONO2CH3 -> CH3CHOCH3 + NO2           4.787E-07
+  34 CH2(OH)CH2(ONO2) -> CH2(OH)CH2(O.) + NO2  8.423E-10
+  35 CH3COCH2(ONO2) -> CH3COCH2(O.) + NO2      6.551E-06
+  36 C(CH3)3(ONO2) -> C(CH3)3(O.) + NO2        1.317E-06
+  37 C(CH3)3(ONO) -> C(CH3)3(O) + NO           1.049E-03
+  38 CH3CO(OONO2) -> CH3CO(OO) + NO2           1.160E-07
+  39 CH3CO(OONO2) -> CH3CO(O) + NO3            4.973E-08
+  40 CH3CH2CO(OONO2) -> CH3CH2CO(OO) + NO2     1.632E-07
+  41 CH3CH2CO(OONO2) -> CH3CH2CO(O) + NO3      1.044E-07
+  42 CH2=CHCHO -> Products                     1.202E-06
+  43 CH2=C(CH3)CHO -> Products                 1.878E-06
+  44 CH3COCH=CH2 -> Products                   1.300E-06
+  45 HOCH2CHO -> CH2OH + HCO                   1.737E-06
+  46 HOCH2CHO -> CH3OH + CO                    2.092E-07
+  47 HOCH2CHO -> CH2CHO + OH                   1.465E-07
+  48 CH3COCH3 -> CH3CO + CH3                   3.492E-08
+  49 CH3COCH2CH3 -> CH3CO + CH2CH3             9.256E-07
+  50 CH2(OH)COCH3 -> CH3CO + CH2(OH)           2.029E-07
+  51 CH2(OH)COCH3 -> CH2(OH)CO + CH3           2.029E-07
+  52 CHOCHO -> HCO + HCO                       3.050E-05
+  53 CHOCHO -> H2 + 2CO                        4.722E-06
+  54 CHOCHO -> CH2O + CO                       9.035E-06
+  55 CH3COCHO -> CH3CO + HCO                   5.344E-05
+  56 CH3COCOCH3 -> Products                    6.238E-05
+  57 CH3COOH -> CH3 + COOH                     0.000E+00
+  58 CH3CO(OOH) -> Products                    1.896E-07
+  59 CH3COCO(OH) -> Products                   1.447E-04
+  60 (CH3)2NNO -> Products                     1.014E-03
+  61 CF2O -> Products                          0.000E+00
+  62 Cl2 -> Cl + Cl                            8.352E-04
+  63 ClO -> Cl + O(1D)                         0.000E+00
+  64 ClO -> Cl + O(3P)                         5.767E-06
+  65 ClOO -> Products                          2.351E-33
+  66 OClO -> Products                          3.149E-02
+  67 ClOOCl -> Cl + ClOO                       5.907E-04
+  68 HCl -> H + Cl                             0.000E+00
+  69 HOCl -> HO + Cl                           9.766E-05
+  70 NOCl -> NO + Cl                           8.833E-04
+  71 ClNO2 -> Cl + NO2                         1.627E-04
+  72 ClONO -> Cl + NO2                         1.405E-03
+  73 ClONO2 -> Cl + NO3                        1.408E-05
+  74 ClONO2 -> ClO + NO2                       2.037E-06
+  75 CCl4 -> Products                          0.000E+00
+  76 CH3OCl -> CH3O + Cl                       3.169E-05
+  77 CHCl3 -> Products                         0.000E+00
+  78 CH3Cl -> Products                         0.000E+00
+  79 CH3CCl3 -> Products                       0.000E+00
+  80 CCl2O -> Products                         0.000E+00
+  81 CClFO -> Products                         0.000E+00
+  82 CCl3F (CFC-11) -> Products                0.000E+00
+  83 CCl2F2 (CFC-12) -> Products               0.000E+00
+  84 CF2ClCFCl2 (CFC-113) -> Products          0.000E+00
+  85 CF2ClCF2Cl (CFC-114) -> Products          0.000E+00
+  86 CF3CF2Cl (CFC-115) -> Products            0.000E+00
+  87 CHClF2 (HCFC-22) -> Products              0.000E+00
+  88 CF3CHCl2 (HCFC-123) -> Products           0.000E+00
+  89 CF3CHFCl (HCFC-124) -> Products           0.000E+00
+  90 CH3CFCl2 (HCFC-141b) -> Products          0.000E+00
+  91 CH3CF2Cl (HCFC-142b) -> Products          0.000E+00
+  92 CF3CF2CHCl2 (HCFC-225ca) -> Products      0.000E+00
+  93 CF2ClCF2CHFCl (HCFC-225cb) -> Products    0.000E+00
+  94 Br2 -> Br + Br                            3.847E-03
+  95 BrO -> Br + O                             1.319E-02
+  96 HOBr -> OH + Br                           6.326E-04
+  97 BrNO -> Br + NO                           2.597E-03
+  98 BrONO -> Br + NO2                         3.897E-03
+  99 BrONO -> BrO + NO                         3.897E-03
+ 100 BrNO2 -> Br + NO2                         1.574E-03
+ 101 BrONO2 -> BrO + NO2                       6.436E-05
+ 102 BrONO2 -> Br + NO3                        3.647E-04
+ 103 BrCl -> Br + Cl                           2.879E-03
+ 104 CH3Br -> Products                         0.000E+00
+ 105 CHBr3 -> Products                         2.289E-07
+ 106 CF2Br2 (Halon-1202) -> Products           6.442E-12
+ 107 CF2BrCl (Halon-1211) -> Products          3.785E-22
+ 108 CF3Br (Halon-1301) -> Products            0.000E+00
+ 109 CF2BrCF2Br (Halon-2402) -> Products       5.172E-37
+ 110 I2 -> I + I                               3.690E-04
+ 111 IO -> I + O                               5.191E-02
+ 112 IOH -> I + OH                             2.898E-03
+ 113 perfluoro 1-iodopropane -> products       2.161E-05
