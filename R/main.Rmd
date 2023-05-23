@@ -132,9 +132,7 @@ plot(df_model$Hours, df_model$HONO_model) # Plot base model
 
 ### Summary report
 
--   Print summary statistics for subset of data frame
--   Currently subsets for HONO_pss and unknown but can easily be edited
-
+-   Print summary statistics for unknown rate, base HONO (ppb), and added chemistry HONO (ppt)
 ```{r summary}
 report_summary(df_model)
 ```

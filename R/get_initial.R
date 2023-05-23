@@ -32,7 +32,7 @@ get_initial <- function(){
 
   # HNO3 Deposition
   initial$v_HNO3 <- 2 / 100 # cm/s converted to 2 m/s
-  initial$J_HNO3 <- 1e-4 # cm/s converted to 2 m/s
+  initial$J_HNO3 <- 1e-4
 
   # Vehicle emissions ----------------------------------------------------------
   initial$HONO_NOx <- 1e-3 # ratio to estimate influence of anthropogenic emissions

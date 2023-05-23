@@ -4,10 +4,10 @@
 
 # Nitrous Acid Program in R (NAP-R)
 # About Me
-NAPR is a  tool to predict steady state [HONO] and the unknown source. Calculates reaction rates. 
-Created by Bode Hoover at IU Bloomington.
-## Installation
-If you need to install devtools
+NAPR is a  tool to predict steady state [HONO] and the unknown source or loss rate based on observed NOx, JNO2, and OH but an OH estimation option is available. Calculates reaction rates and concentrations. Created by Bode Hoover at IU Bloomington (bodehoov@iu.edu). The online Shiny App is available [here](url). 
+
+## Installation and Dependencies
+All necessary packages should be installed after running the load_packages() function in the main.Rmd file. If you need still to install devtools,
 ```
 install.packages("devtools")
 ```
@@ -22,16 +22,11 @@ Or if that doesn't work
 ```
 remotes::install_github("bhoover59/NAPR")
 ```
-To remove the package go to Packages in RStudio and hit X on right side. If that doesn't work, try this
-```
-remove.packages("NAPR")
-```
-Or if that doesn't work
-```
-unloadNamespace("NAPR")
-```
 
-## core()
+## Run the model
+You will need to edit the main.Rmd file to run the model with your field campaign data. Currently, the data must be a 24 hour diurnal which can be achieved using the diurnals package above. Additionally, the get_initial.R must be edited to adjust the initial conditions. 
+
+## Diurnal average
 1. Inputs
    - df: data frame with field campaign data
    - TimeColumn: name of column with times. Can be any string format. Edit char_to_time function if additional formats needed
@@ -47,6 +42,4 @@ df <- Diurnal(df = df_name, TimeColumn = time_column_name)
 
 ## Future work:
    - Make RShiny app for UI
-     -  Drop down menu to select what to plot
-     -  Numeric inputs for inital conditions
-     -  TUV model incorporation to make Jcorr
+   - Add diurnal average option
