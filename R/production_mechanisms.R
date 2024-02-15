@@ -14,43 +14,34 @@ production_mechanisms <- function(df, initial){
   #     - Boundary layer height should minimize at night, max during day
   #     - Should include [soil nitrite], pH, temp, RH, and WHC dependence
   # Acid Displacement
-  # Photolysis of Adsorbed Nitric Acid: 2HNO3+hv=2HONO+O2
-  # Photolysis of Particulate Nitrate (same as above?)
-  # Photolysis of ortho nitrophenols: orthonitrophenol+hv=HONO
-
-  # Aerosols
-  # Explanation of photo-enhanced notation:
-    # df$gamma_NO2_aerosol has photo-enhanced calculated in get_kinetics
-      # Uses ratio of JNO2 to max JNO2
-      # Actually now it uses Beta factor
-    # initial$gamma_NO2_aerosol is constant for dark conversion
+  # Photolysis of Adsorbed Nitric Acid/Particulate Nitrate: 2HNO3+hv=2HONO+O2
+  # Photolysis of ortho nitrophenols: C6H5NO3+hv=HONO
 
   # PRODUCTION MECHANISMS (percc/h) --------------------------------------------
-  # Later gets converted to ppb/h
   # Homogeneous gas phase rxn: OH + NO -> HONO ---------------------------------
-  df$P_OH_NO <- df$k_OH_NO * df$OH * df$NO * 3600 * 10
+  df$P_OH_NO <- df$k_OH_NO * df$OH * df$NO * 3600
 
-  # Ground surfaces ------------------------------------------------------------
+    # Ground surfaces ------------------------------------------------------------
   # Dark NO2 conversion on ground
-  df$P_NO2het_ground <- (df$v_NO2 * initial$gamma_NO2_ground * df$NO2 * (df$RH/50) * 3600) / (4 * df$H)
-  # Aerosols independent of boundary layer H, only ground is
+  df$P_NO2het_ground <- (df$k_NO2_het_ground * df$NO2 * 3600)
   # Photo-enhanced NO2 conversion on ground
-  df$P_NO2het_ground_light <- (df$v_NO2 * initial$gamma_NO2_ground * (df$JNO2 / initial$beta)^3 * (df$RH/50) * df$NO2 * 3600) / (4 * df$H)
-  # df$gamma_NO2_ground has a scaled NO2 uptake but different method
+  df$P_NO2het_ground_light <- (df$k_NO2_het_ground_hv * df$NO2 * 3600)
 
   # Aerosol surfaces -----------------------------------------------------------
   # Dark NO2 conversion on aerosols
-  df$P_NO2het_aerosol <- (df$v_NO2 * initial$gamma_NO2_aerosol * df$NO2 * initial$S_aerosol * 3600) / (4)
+  df$P_NO2het_aerosol <- (df$k_NO2_het_aerosol * df$NO2 * 3600)
 
   # Photo-enhanced NO2 conversion on aerosols ----------------------------------
-  df$P_NO2het_aerosol_light <- (df$v_NO2 * initial$gamma_NO2_aerosol * (df$JNO2 / initial$beta) * df$NO2 * initial$S_aerosol * 3600) / (4)
+  df$P_NO2het_aerosol_light <- (df$k_NO2_het_aerosol_hv * df$NO2 * 3600)
+
+  # Photolysis of orthonitrophenols (C6H5NO3)  ---------------------------------
+  df$P_C6H5NO3 <- (df$k_C6H5NO3 * initial$C6H5NO3_conc * 3600)
 
   # Direct vehicle emissions ---------------------------------------------------
-  # Estimate using HONO/NOx ratio
+  # Estimate using HONO/NOx ratio?
   df$P_emis <- 0
 
   # Direct soil emissions (calculate from NO emissions?) -----------------------
-  # Related to soil nitrite
   # Currently not photo-sensitive. Constant emission rate
   if(initial$soil_type == 'AM'){
     # convert ng/m3 /s to ppb/s
@@ -62,19 +53,21 @@ production_mechanisms <- function(df, initial){
   }
 
   # NOT INCLUDED YET AND MIGHT NOT ---------------------------------------------
-  # Photolysis of nitrophenols
-  # df$P_nitro <- J_nitrophenol * df$nitrophenol * 3600
 
   # Photolysis of particulate nitrate
-  # df$nitrate <- df$nitrate * R * df$Temp * J_HNO3
+  # df$nitrate <- df$nitrate * R * df$Temp * J_HNO3 * initial$EF
 
   # Acid Displacement
+  # ----------------------------------------------------------------------------
 
   # Lumping together heterogeneous production ----------------------------------
-  df$P_NO2het <- (df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light) * 1e3
+  df$P_NO2het <- (df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light)
+
+  # Other
+  df$P_other <- df$P_emis + df$P_soil + df$P_C6H5NO3
 
   # Total production -----------------------------------------------------------
-  df$production <- df$P_OH_NO + df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light + df$P_emis + df$P_soil
+  df$production <- df$P_OH_NO + df$P_NO2het_ground + df$P_NO2het_ground_light + df$P_NO2het_aerosol + df$P_NO2het_aerosol_light + df$P_emis + df$P_soil + df$P_C6H5NO3
 
   return(df)
 }

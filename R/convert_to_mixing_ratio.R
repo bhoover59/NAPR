@@ -1,12 +1,9 @@
 convert_to_mixing_ratio <- function(df) {
-  # Leave OH in molec/cm3, convert others to ppb
-  # col_list <- c("HONO", "NO", "NO2", "NOx", "HONO_pss", "HONO_model", "HONO_test1", "HONO_test1", "O3",
-  #               "P_OH_NO", "P_NO2het_ground", "P_NO2het_ground_light", "P_NO2het_aerosol", "P_NO2het_aerosol_light", "P_emis", "P_soil",
-  #               "L_photo", "L_OH", "L_aerosol", "L_dilution", "L_ground_light", "L_aerosol_light", "L_uptake_ground", "production",
-  #               "loss", "diff", "unknown", "L_het", "P_NO2het", "diff")
-  col_list <- c("HONO", "NO", "NO2", "NOx", "HONO_pss", "HONO_model", "HONO_test1", "HONO_test1", "O3",
-                "P_OH_NO", "P_NO2het_ground", "P_NO2het_ground_light", "P_NO2het_aerosol", "P_NO2het_aerosol_light", "P_emis", "P_soil",
-                "production", "unknown", "P_NO2het")
+  col_list <- c("HONO", "OH", "NO", "NO2", "NOx", "HONO_pss", "HONO_model", "O3",
+                "P_OH_NO", "P_NO2het_ground", "P_NO2het_ground_light", "P_NO2het_aerosol", "P_NO2het_aerosol_light",
+                "P_emis", "P_soil", "P_C6H5NO3", "P_other",
+                "production", "unknown","L_photo", "L_het", "L_OH", "L_uptake_ground", "P_NO2het", "L_other", "diff", "HONO_model_NPSS", "loss")
+
   for(col_name in colnames(df)) {
     if(col_name %in% col_list) {
       df[[col_name]] <- df[[col_name]] / (2.46e10)

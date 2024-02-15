@@ -69,7 +69,7 @@ get_functions <- function() {
   )
   path <- getwd()
   for (file_name in file_list) {
-    file <- paste(path, '/', file_name, sep = "")
+    file <- paste(path, '/R/', file_name, sep = "")
     source(file)
   }
 }
