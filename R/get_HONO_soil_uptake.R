@@ -10,10 +10,11 @@ get_HONO_soil_uptake <- function(df, pH = 6, pH_weight = 0.33, RH_weight = 0.33,
   df$gamma_HONO_RH <-  (2e-4 * (df$RH) ^-0.043)
 
   # Temperature dependence -----------------------------------------------------
-  df$gamma_HONO_T <- 1.4e-5 * exp(1405 / df$TempK)
+  # df$gamma_HONO_T <- 1.4e-5 * exp(1405 / df$TempK)
 
   # Default assumes equal dependence on soil pH and relative humidity and temperature
-  df$gamma_HONO_ground <- df$gamma_HONO_pH * pH_weight + df$gamma_HONO_RH * RH_weight + df$gamma_HONO_T * T_weight
+  # df$gamma_HONO_ground <- df$gamma_HONO_pH * pH_weight + df$gamma_HONO_RH * RH_weight + df$gamma_HONO_T * T_weight
+  df$gamma_HONO_ground <- df$gamma_HONO_pH * pH_weight + df$gamma_HONO_RH * RH_weight
 
   return(df$gamma_HONO_ground)
 }

@@ -11,8 +11,8 @@ get_kinetics <- function(df, initial) {
   df$SA_V_aerosol <- 1e-4
 
   # Deposition Velocities (m/s) ------------------------------------------------
-  df$v_HONO <- sqrt((3 * initial$R * df$TempK) / (initial$Mass_HONO * 1e3)) # m/s
-  df$v_NO2 <- sqrt((3 * initial$R * df$TempK) / (initial$Mass_NO2 * 1e3)) # m/s
+  df$v_HONO <- sqrt((3 * initial$R * df$TempK) / (initial$Mass_HONO * 1e-3)) # m/s
+  df$v_NO2 <- sqrt((3 * initial$R * df$TempK) / (initial$Mass_NO2 * 1e-3)) # m/s
   # ----------------------------------------------------------------------------
 
   # Deposition and Conversion --------------------------------------------------
@@ -26,10 +26,17 @@ get_kinetics <- function(df, initial) {
   df$gamma_NO2_aerosol_hv <- 2e-5
 
   # HONO uptake coefficients ---------------------------------------------------
-  # max_JHONO <- max(df$JHONO) # assume maximum JHONO is at noon
-  # df$gamma_HONO_ground <- 8e-6 * df$JHONO / max_JHONO
-  # gamma_HONO_ground determined in get_HONO_soil_uptake.R using pH and RH dependence
-  df$gamma_HONO_ground <- get_HONO_soil_uptake(df = df)
+  if (initial$HONO_uptake == 'calculate'){
+    df$gamma_HONO_ground <- get_HONO_soil_uptake(df = df)
+  }
+  else if(initial$HONO_uptake == 'input'){
+    df$gamma_HONO_ground <- df$gamma_HONO_ground_input
+  }
+  else{
+    print("Invalid HONO uptake selected")
+  }
+
+
 
   # Reaction Rates -------------------------------------------------------------
   # Production Rates -----------------------------------------------------------
@@ -72,7 +79,6 @@ get_kinetics <- function(df, initial) {
   # Estimating OH
   if (initial$estimate_OH == 1){
     # (Ehhalt D., et al. 2000) (https://agupubs.onlinelibrary.wiley.com/doi/epdf/10.1029/1999JD901070)
-    # CHANGE TO BE EXPORTED FROM TUV MODEL WITH JCORR???
     JO1D <- (df$JNO2 / 1.61)^2
     df$OH <- 0.83 * JO1D^0.87 * df$JNO2^0.19 * ((140 * df$NO2 + 1)) / ((0.41 * df$NO2^2+1.7*df$NO2+1))
   }

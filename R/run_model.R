@@ -15,18 +15,16 @@ run_model <- function(df, initial){
   total$HONO_model <- total$production / total$loss
 
   # Non Photo Stationary State (NPSS) ------------------------------------------
-  # Calculate dHONOdt
   total$dHONOdt <- calculate_dHONOdt(total)
   total$unknown <- total$dHONOdt - total$production + total$loss
+
   total$HONO_model_NPSS[1] <- initial$HONO # assign to first measured value
-  # Loop over all rows in total, starting from the second row
   for (i in 2:nrow(total)) {
     # Calculate HONO_model using previous value and diff in rates
-    total$HONO_model_NPSS[i] <- total$HONO_model_NPSS[i-1] + total$delta[i]
+    total$HONO_model_NPSS[i] <- total$HONO[i-1] + total$delta[i]
   }
+  total$HONO_model_NPSS[1] <- total$HONO_model_NPSS[1] * 2.46e10
 
-  # Convert output to ppb except OH
   total <- convert_to_mixing_ratio(total)
-  View(total)
   return(total)
 }

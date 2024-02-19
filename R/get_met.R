@@ -1,4 +1,4 @@
-get_met <- function(df, temp_units, temp_column){
+get_met <- function(df, temp_units, temp_column, RH_units){
   # Convert temperature to Kelvin (K)
   if (grepl("F", temp_units, ignore.case = TRUE)) {
     # temperature is in Fahrenheit, convert to Celsius then Kelvin
@@ -9,6 +9,14 @@ get_met <- function(df, temp_units, temp_column){
   } else {
     # temperature is already in Kelvin
     df$TempK <- df[[temp_column]]
+  }
+
+  if (RH_units == 'perc'){
+    df$RH <- df$RH
+  } else if(RH_units == 'decimal'){
+    df$RH <- df$RH * 100
+  } else {
+    print("Invalid RH units selected")
   }
 
   return(df)

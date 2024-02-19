@@ -1,9 +1,9 @@
 get_J_values <- function(df, JNO2, Jcorr) {
   # About ----------------------------------------------------------------------
-  # JNO2 = 1 : use TUV modeled JNO2
+  # JNO2 = 1 : use TUV modeled JNO2, else use measurements
   # Jcorr = 1 : calculate Jcorr by JNO2 measured/JNO2 TUV
   # Jcorr = 0 : input Jcorr values
-  # Jcorr = 2 : use ideal conditions (No Jcorr)
+  # Jcorr = 2 : use ideal conditions (No Jcorr), not recommended
 
   df <- convert_to_numeric(df)
 

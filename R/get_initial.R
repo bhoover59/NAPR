@@ -7,9 +7,11 @@ get_initial <- function(){
   initial$Mass_HONO <- 47.013 # g/mol
   initial$Mass_nitrate <- 62.0049 # g/mol
   initial$M <- 2.46e19 # concentration of intermediate air molecules
-
   initial$HONO <- 20 # ppt HONO initialization
   initial$C6H5NO3_conc <- 1 # ppb
+
+  # HONO uptake option
+  initial$HONO_uptake <- 'calculate' # calculate or input
 
   # Boundary layer height initialization
   initial$BLH_night <- 200 # m, night time boundary layer height, Daytime = 3 * Night

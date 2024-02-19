@@ -38,10 +38,10 @@ loss_mechanisms <- function(df, initial){
   df$L_dilution <- initial$kdil
 
   # Self Reaction --------------------------------------------------------------
-  df$L_self <- df$k_HONO_HONO * df$HONO
+  df$L_self <- df$k_HONO_HONO * df$HONO * 3600
 
   # Ozone Oxidation
-  df$L_O3 <- df$k_HONO_O3 * df$HONO
+  df$L_O3 <- df$k_HONO_O3 * df$HONO * 3600
 
   # # Lumping together heterogeneous loss ----------------------------------------
   df$L_het <- df$L_uptake_ground + df$L_aerosol + df$L_ground_light + df$L_aerosol_light
