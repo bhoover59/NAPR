@@ -56,6 +56,10 @@ plot_HONO_grid(df = df_model, xlab = 'Hour', ylab = '[HONO] (ppt)')
 plot_rates(df = df_model) # plot all individual production and loss rates stacked
 plot(df_model$Hours, (df_model$production / df_model$loss) )
 
+# df_model$test <- (df_model$k_OH_NO * df_model$OH * df_model$NO) / (df_model$JHONO + df_model$k_HONO_OH * df_model$OH)
+# plot(df_model$Hours, df_model$test *1e3)
+# plot(df_model$Hours, df_model$NO)
+
 # Summary report ---------------------------------------------------------------
 report_summary(df_model)
 

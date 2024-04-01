@@ -23,8 +23,12 @@ run_model <- function(df, initial){
     # Calculate HONO_model using previous value and diff in rates
     total$HONO_model_NPSS[i] <- total$HONO[i-1] + total$delta[i]
   }
-  total$HONO_model_NPSS[1] <- total$HONO_model_NPSS[1] * 2.46e10
+
 
   total <- convert_to_mixing_ratio(total)
+  total$HONO_model_NPSS[1] <- total$HONO_model_NPSS[1] * 2.46e10 / 1e3
+
+  total$HONO_model <- total$HONO_model * 2.46e10 / 100
+
   return(total)
 }

@@ -27,7 +27,7 @@ plot_rates <- function(df){
          fill = "") +
     scale_fill_manual(
       values = c("HONO+hv" = "firebrick4", "HONO+OH" = "red", "L_het" = "orange", "L_other" = "yellow", "OH+NO" = "navy", "NO2+H2O" = "lightblue", "P_other" = "purple"),
-      labels = c("HONO+hv", "HONO+OH", expression(L[het]), expression(L[other]), expression(OH + NO), expression(NO[2] + surf), expression(P[other]))
+      labels = c("HONO+hv", "HONO+OH", expression(L[het]), expression(L[other]), expression(NO[2] + surf), expression(OH + NO), expression(P[other]))
     ) +
     theme_classic() +
     theme(

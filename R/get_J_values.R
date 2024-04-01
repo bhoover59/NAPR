@@ -11,7 +11,7 @@ get_J_values <- function(df, JNO2, Jcorr) {
   # Issue because JNO2_TUV can be 0 which results in infinite Jcorr
   # To fix, we replace JNO2_TUV with the average of smallest 5 in JNO2_TUV that is greater than or equal to 5e-7
   # smallest_JNO2_TUV <- mean(sort(unique(df$JNO2_TUV[df$JNO2_TUV >= 5e-7]))[1:5])
-  df$JNO2_TUV[df$JNO2_TUV <= 5e-8] <- 1
+  df$JNO2_TUV[df$JNO2_TUV <= 5e-6] <- 1
 #
 #   smallest_JNO2_TUV <- mean(sort(unique(df$JNO2_TUV[df$JNO2_TUV >= 1e-6]))[1:5])
 #   df$JNO2_TUV[df$JNO2_TUV <= 1e-6] <- smallest_JNO2_TUV
@@ -45,6 +45,9 @@ get_J_values <- function(df, JNO2, Jcorr) {
     # No Jcorr value and use JHONO TUV
     df$JHONO <- df$JHONO_TUV
   }
+
+  # Prevent weird spike behavior
+  df$JHONO[df$JHONO <= 5e-7] <- 0
 
 
   return(df)
