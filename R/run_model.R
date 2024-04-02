@@ -16,7 +16,7 @@ run_model <- function(df, initial){
 
   # Non Photo Stationary State (NPSS) ------------------------------------------
   total$dHONOdt <- calculate_dHONOdt(total)
-  total$unknown <- total$dHONOdt - total$production + total$loss
+  total$unknown <- total$dHONOdt / 2.46e10 - total$production + total$loss
 
   total$HONO_model_NPSS[1] <- initial$HONO # assign to first measured value
   for (i in 2:nrow(total)) {

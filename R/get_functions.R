@@ -23,7 +23,10 @@ get_functions <- function() {
     "shift_column.R",
     "get_HONO_soil_uptake.R",
     "plot_HONO_grid.R",
-    "calculate_dHONOdt.R"
+    "calculate_dHONOdt.R",
+    "stack_rates.R",
+    "percent_contribution.R",
+    "plot_correlation.R"
   )
   path <- getwd()
   for (file_name in file_list) {

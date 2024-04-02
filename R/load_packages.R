@@ -1,5 +1,6 @@
 load_packages <- function(libraries) {
-  libraries <- c("ggplot2", "diurnals", "psych", "dplyr", "plotly", "cowplot", "patchwork", "rmarkdown", "tidyr", "devtools", "ggthemes", "magrittr")
+  libraries <- c("ggplot2", "diurnals", "psych", "dplyr", "plotly", "cowplot", "patchwork",
+                 "rmarkdown", "tidyr", "devtools", "ggthemes", "magrittr", "reshape2")
   # Description of required libraries ------------------------------------------
   # Check https://github.com/bhoover59/diurnals for more information about diurnals package
   # diurnals: allows diurnal averaging and time averaging

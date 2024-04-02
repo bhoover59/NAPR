@@ -1,5 +1,6 @@
 # About me ---------------------------------------------------------------------
 # Nitrous Acid Program in R (NAPR)
+# Written by Bode Hoover (bodehoov@iu.edu)
 # Currently only working for diurnal.
 # Easily use diurnals package if needed (https://github.com/bhoover59/diurnals)
 # Standardized form of calculating HONO sources and modeling [HONO]
@@ -8,7 +9,7 @@
 rm(list = ls())
 
 # Getting functions from other scripts------------------------------------------
-# Eventually need to put on github and use NAPR:: before function names?
+# Eventually need to put on github and use NAPR:: before function names? or keep local
 path <- getwd()
 file <- paste(path, '/R/', 'get_functions', '.R', sep = "")
 source(file)
@@ -54,16 +55,17 @@ plot_HONO(df = df_model, xlab = 'Hour', ylab = '[HONO] (ppt)')
 plot_HONO_grid(df = df_model, xlab = 'Hour', ylab = '[HONO] (ppt)')
 # plot_species(df = df_model, species = 'NO2', xlab = 'Hour', ylab = 'Concentration (ppb)')
 plot_rates(df = df_model) # plot all individual production and loss rates stacked
-plot(df_model$Hours, (df_model$production / df_model$loss) )
-
-# df_model$test <- (df_model$k_OH_NO * df_model$OH * df_model$NO) / (df_model$JHONO + df_model$k_HONO_OH * df_model$OH)
-# plot(df_model$Hours, df_model$test *1e3)
-# plot(df_model$Hours, df_model$NO)
 
 # Summary report ---------------------------------------------------------------
-report_summary(df_model)
+# report_summary(df_model)
+
+# Percent contribution of each mechanism ---------------------------------------
+df_model <- percent_contribution(df = df_model, view_percentages = 0)
+
+# Plot correlations
+plot_correlation(df_model)
 
 # Output csv -------------------------------------------------------------------
-output_csv(df_model, file_name = 'NAPR output') # output csv to working directory
+output_csv(df_model, file_name = 'NAPR_output') # output csv to working directory
 
 
